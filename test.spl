@@ -1,0 +1,13 @@
+{
+    f(var int x, int y){
+        if(true){
+          delete x;
+        }else{
+           x=x+y;
+     }
+    }
+}
+
+
+
+
