@@ -57,21 +57,13 @@ public class SimpleStmtBlock extends SimpleStmt {
 		return result;
 	}
 
-	public List<SemanticError> checkSemantics(EnvironmentVariables e, EnvironmentFunctions f, List<SimpleParameter> parameters) {
+	public List<SemanticError> checkSemanticsFunction(EnvironmentVariables e, EnvironmentFunctions f) {
 
 		//initialize result variable
 		LinkedList<SemanticError> result = new LinkedList<SemanticError>();
 
 		//create scope for inner elements
-		e.openScope();
-
-		for (SimpleParameter parameter: parameters) {
-			if(e.containsVariable(parameter.getID()) == false){
-				e.addVariable(parameter.getID(), parameter.getType());
-			} else {
-				result.add(new SemanticError(Strings.VariablesAlreadyDeclared + parameter.getID()));
-			}
-		}
+		//e.openScope();
 
 		f.openScope();
 

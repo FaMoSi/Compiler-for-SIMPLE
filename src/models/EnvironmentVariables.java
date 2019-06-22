@@ -137,9 +137,10 @@ public class EnvironmentVariables {
 
 				for (Map.Entry<String, Integer> entry : map.entrySet()) {
 					int address = entry.getValue();
+					String identiferToDelete = entry.getKey();
 					if(address == addressToDelete){
-						paramToDelete.remove(id);
-						scopes.get(index).remove(id);
+						paramToDelete.remove(identiferToDelete);
+						scopes.get(index).remove(identiferToDelete);
 					}
 				}
 				index++;

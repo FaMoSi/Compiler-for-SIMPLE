@@ -37,8 +37,18 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
             if(parameters.size() != actualParams.size()){
                 semanticErrors.add(new SemanticError(Strings.MysmatchFormalActual));
             } else {
-                for(int i = 0; i < parameters.size(); i++){
 
+                e.openScope();
+
+                for (SimpleParameter parameter: parameters) {
+                    if(e.containsVariable(parameter.getID()) == false){
+                        e.addVariable(parameter.getID(), parameter.getType());
+                    } else {
+                        semanticErrors.add(new SemanticError(Strings.VariablesAlreadyDeclared + parameter.getID()));
+                    }
+                }
+
+                for(int i = 0; i < parameters.size(); i++){
                         try{
                             if(parameters.get(i).var) {
                                 SimpleExpID test = (SimpleExpID) actualParams.get(i);
@@ -53,7 +63,9 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
                         }
                 }
             }
-            semanticErrors.addAll(body.checkSemantics(e, f, parameters));
+
+
+            semanticErrors.addAll(body.checkSemanticsFunction(e, f));
         }
 
         return semanticErrors;

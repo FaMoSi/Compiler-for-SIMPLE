@@ -32,7 +32,17 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
             semanticErrors.add(new SemanticError(Strings.FunctionAlreadyDeclared + id));
         }
 
-        semanticErrors.addAll(block.checkSemantics(ev, ef, parameters));
+        ev.openScope();
+
+        for (SimpleParameter parameter: parameters) {
+            if(ev.containsVariable(parameter.getID()) == false){
+                ev.addVariable(parameter.getID(), parameter.getType());
+            } else {
+                semanticErrors.add(new SemanticError(Strings.VariablesAlreadyDeclared + parameter.getID()));
+            }
+        }
+
+        semanticErrors.addAll(block.checkSemanticsFunction(ev, ef));
 
 
         return semanticErrors;
