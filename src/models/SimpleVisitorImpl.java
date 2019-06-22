@@ -44,6 +44,7 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
 		SimpleStmtBlock body = functionAndBody.get(id);
 
+
 		return new SimpleStmtFunctionCall(id, simpleExps, body);
 	}
 

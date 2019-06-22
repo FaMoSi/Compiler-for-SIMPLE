@@ -53,7 +53,7 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
                         }
                 }
             }
-            semanticErrors.addAll(body.checkSemantics(e, f));
+            semanticErrors.addAll(body.checkSemantics(e, f, parameters));
         }
 
         return semanticErrors;

@@ -1,1 +1,0 @@
-syntax-error - line: 3, position: 16, message: missing 'then' at '{'
