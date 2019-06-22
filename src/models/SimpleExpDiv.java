@@ -1,5 +1,7 @@
 package models;
 
+import util.Node;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,6 +43,11 @@ public class SimpleExpDiv extends SimpleExp {
 		result.addAll(rightSide.checkSemantics(e, f));
 		
 		return result;
+	}
+
+	@Override
+	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+		return null;
 	}
 
 }

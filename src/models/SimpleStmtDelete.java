@@ -3,6 +3,7 @@ package models;
 import java.util.LinkedList;
 import java.util.List;
 
+import util.Node;
 import util.Strings;
 
 public class SimpleStmtDelete extends SimpleStmt {
@@ -37,6 +38,10 @@ public class SimpleStmtDelete extends SimpleStmt {
 		return result;
 	}
 
+	@Override
+	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+		return null;
+	}
 
 
 }

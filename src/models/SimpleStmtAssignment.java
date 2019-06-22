@@ -1,5 +1,6 @@
 package models;
 
+import util.Node;
 import util.Strings;
 
 import java.util.List;
@@ -31,6 +32,10 @@ public class SimpleStmtAssignment extends SimpleStmt{
 		
 	}
 
+	@Override
+	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+		return null;
+	}
 
 
 }

@@ -1,5 +1,7 @@
 package models;
 
+import util.Node;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,6 +25,11 @@ public class SimpleExpVal extends SimpleExp {
 		List<SemanticError> result = new LinkedList<SemanticError>();
 				
 		return result;
+	}
+
+	@Override
+	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+		return null;
 	}
 
 	@Override

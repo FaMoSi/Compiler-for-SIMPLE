@@ -1,5 +1,7 @@
 package models;
 
+import util.Node;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +22,11 @@ public class SimpleExpOr extends SimpleExp {
         semanticErrors.addAll(rightSide.checkSemantics(ev, ef));
 
         return semanticErrors;
+    }
+
+    @Override
+    public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+        return null;
     }
 
     @Override

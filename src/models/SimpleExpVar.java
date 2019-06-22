@@ -3,6 +3,7 @@ package models;
 import java.util.LinkedList;
 import java.util.List;
 
+import util.Node;
 import util.Strings;
 
 public class SimpleExpVar extends SimpleExp {
@@ -30,6 +31,11 @@ public class SimpleExpVar extends SimpleExp {
 			result.add(new SemanticError(Strings.ErrorVariableDoesntExist + id));
 		
 		return result;
+	}
+
+	@Override
+	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+		return null;
 	}
 
 	@Override

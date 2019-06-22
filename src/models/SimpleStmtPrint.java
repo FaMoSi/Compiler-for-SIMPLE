@@ -1,5 +1,7 @@
 package models;
 
+import util.Node;
+
 import java.util.List;
 
 public class SimpleStmtPrint extends SimpleStmt {
@@ -21,6 +23,11 @@ public class SimpleStmtPrint extends SimpleStmt {
 	@Override
 	public List<SemanticError> checkSemantics(EnvironmentVariables e, EnvironmentFunctions f) {
 		return exp.checkSemantics(e, f);
+	}
+
+	@Override
+	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+		return null;
 	}
 
 }

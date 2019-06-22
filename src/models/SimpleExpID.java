@@ -1,5 +1,6 @@
 package models;
 
+import util.Node;
 import util.Strings;
 
 import java.util.LinkedList;
@@ -22,6 +23,11 @@ public class SimpleExpID extends SimpleExp {
         }
 
         return semanticErrors;
+    }
+
+    @Override
+    public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+        return null;
     }
 
     public String getType(EnvironmentVariables e){

@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parser.SimpleLexer;
 import parser.SimpleParser;
+import util.Node;
 
 public class Analyse {
 
@@ -45,7 +46,8 @@ public class Analyse {
 			//give a fresh environment, no need to make it persist
 			//this is just semantic checking
 			List<SemanticError> errors = mainBlock.checkSemantics(new EnvironmentVariables(), new EnvironmentFunctions());
-			
+
+
 			//this means the semantic checker found some errors
 			if(errors.size() > 0){
 				System.out.println("Check semantics FAILED");			
@@ -53,8 +55,10 @@ public class Analyse {
 					System.out.println(err);
 			}else{
 				System.out.println("Check semantics succeded");
-
+				List<Node> codeGeneration = mainBlock.codeGeneration(new EnvironmentVariables(), new EnvironmentFunctions());
 			}
+
+
 		/*}catch(RecognitionException e){
 			System.out.println("Some errors where found in the parsing process");
 			System.out.println(e.getMessage());

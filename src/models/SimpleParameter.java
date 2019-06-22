@@ -2,6 +2,7 @@ package models;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import parser.SimpleParser;
+import util.Node;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +25,11 @@ public class SimpleParameter extends SimpleElementBase {
         List<SemanticError> semanticErrors = new LinkedList<>();
 
         return semanticErrors;
+    }
+
+    @Override
+    public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+        return null;
     }
 
     public String getType(){ return type;}

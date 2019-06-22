@@ -1,5 +1,6 @@
 package models;
 
+import util.Node;
 import util.Strings;
 
 import java.util.LinkedList;
@@ -39,5 +40,10 @@ public class SimpleStmtDeclaration extends SimpleStmt {
         }
 
         return semanticErrors;
+    }
+
+    @Override
+    public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+        return null;
     }
 }

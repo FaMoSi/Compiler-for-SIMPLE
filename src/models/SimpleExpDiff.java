@@ -1,5 +1,7 @@
 package models;
 
+import util.Node;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,6 +45,10 @@ public class SimpleExpDiff extends SimpleExp {
 		return result;
 	}
 
-	
+	@Override
+	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+		return null;
+	}
+
 
 }

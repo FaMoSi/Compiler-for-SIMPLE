@@ -1,5 +1,6 @@
 package models;
 
+import util.Node;
 import util.Strings;
 
 import java.util.LinkedList;
@@ -37,6 +38,11 @@ public class SimpleStmtBlock extends SimpleStmt {
 		e.closeScope();
 		
 		return result;
+	}
+
+	@Override
+	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+		return null;
 	}
 
 	public List<SemanticError> checkSemanticsIfThenElse(EnvironmentVariables e, EnvironmentFunctions f) {
