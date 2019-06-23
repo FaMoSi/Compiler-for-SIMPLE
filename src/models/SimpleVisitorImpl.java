@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
-	public HashMap<String, SimpleStmtBlock>functionAndBody = new HashMap<>();
+	public HashMap<String, SimpleStmtBlock> functionAndBody = new HashMap<>();
 
 	@Override
 	public SimpleElementBase visitStatement(SimpleParser.StatementContext ctx) {

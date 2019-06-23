@@ -6,7 +6,7 @@
     	    print(m+n);
     	}
     	else {
-    	    print m;
+    	    f(m+1,n+1)
     	}
 
     }

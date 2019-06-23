@@ -32,7 +32,7 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
             semanticErrors.addAll(exp.checkSemantics(e, f));
         }
 
-        if(f.containsFunction(id) == false){
+        if(!f.containsFunction(id)){
             semanticErrors.add(new SemanticError(Strings.FunctionNotDeclared + id));
         } else {
             List<SimpleParameter> parameters = f.getFunctionParameters(id);

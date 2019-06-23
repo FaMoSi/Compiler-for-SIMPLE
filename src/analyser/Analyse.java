@@ -54,7 +54,9 @@ public class Analyse {
 			//check semantics
 			//give a fresh environment, no need to make it persist
 			//this is just semantic checking
-			List<SemanticError> errors = mainBlock.checkSemantics(new EnvironmentVariables(), new EnvironmentFunctions());
+			List<SemanticError> errors = new LinkedList<>();
+
+			//errors.addAll(mainBlock.checkSemantics(new EnvironmentVariables(), new EnvironmentFunctions()));
 
 			List<Node> codeGeneration = new LinkedList<>();
 
