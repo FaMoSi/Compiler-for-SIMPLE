@@ -66,7 +66,7 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
 			functionAndBody.put(id, block);
 
-			return new SimpleStmtFunctionDeclaration(id,parameters, block);
+			return new SimpleStmtFunctionDeclaration(id, parameters, block);
 
 		} else { //var
 
@@ -200,9 +200,9 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 		//visit each children
 		for(SimpleParser.StatementContext stmtCtx : ctx.statement())
 			children.add((SimpleStmt) visitStatement(stmtCtx));
-		
+
 		//construct block statement expression
-		SimpleStmtBlock block = new SimpleStmtBlock(children );
+		SimpleStmtBlock block = new SimpleStmtBlock(children, ctx);
 		
 		return block;
 	}

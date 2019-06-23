@@ -1,6 +1,7 @@
 package models;
 
 import util.Node;
+import util.OperationCodeGeneration;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -44,8 +45,24 @@ public class SimpleExpSum extends SimpleExp {
 	}
 
 	@Override
-	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
-		return null;
-	}
+	public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
+		List<Node> sumCode = new LinkedList<>();
 
+		List<Node> leftNodes;
+		List<Node> rightNodes;
+
+		leftNodes = leftSide.codeGeneration(ev, ef, oCgen);
+		sumCode.addAll(leftNodes);
+
+		sumCode.addAll(oCgen.push("a"));
+
+		rightNodes = rightSide.codeGeneration(ev, ef, oCgen);
+		sumCode.addAll(rightNodes);
+
+		sumCode.add(oCgen.top("t"));
+		sumCode.add(oCgen.add("a", "a", "t"));
+		sumCode.add(oCgen.pop());
+
+		return sumCode;
+	}
 }

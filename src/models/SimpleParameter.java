@@ -1,8 +1,7 @@
 package models;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import parser.SimpleParser;
 import util.Node;
+import util.OperationCodeGeneration;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class SimpleParameter extends SimpleElementBase {
     }
 
     @Override
-    public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+    public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
         return null;
     }
 

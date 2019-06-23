@@ -1,6 +1,7 @@
 package models;
 
 import util.Node;
+import util.OperationCodeGeneration;
 import util.Strings;
 
 import java.util.LinkedList;
@@ -30,13 +31,13 @@ public class SimpleStmtIfThenElse extends SimpleStmt {
         semanticErrors.addAll(thenBlock.checkSemanticsIfThenElse(thenEnvironment, ef));
         semanticErrors.addAll(elseBlock.checkSemanticsIfThenElse(elseEnvironment, ef));
 
-        semanticErrors.addAll(guard.checkSemantics(ev,ef));
+        semanticErrors.addAll(guard.checkSemantics(ev, ef));
 
-        if(guard.getType(ev) != "bool"){
+        if (guard.getType(ev) != "bool") {
             semanticErrors.add(new SemanticError(Strings.IfThenElseWrongGuard));
         }
 
-        if(!thenEnvironment.equals(elseEnvironment) || !elseEnvironment.equals(thenEnvironment)){
+        if (!thenEnvironment.equals(elseEnvironment) || !elseEnvironment.equals(thenEnvironment)) {
             semanticErrors.add(new SemanticError(Strings.IfThenElseNotBalanced));
         }
 
@@ -44,7 +45,7 @@ public class SimpleStmtIfThenElse extends SimpleStmt {
     }
 
     @Override
-    public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+    public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
         return null;
     }
 }

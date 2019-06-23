@@ -1,6 +1,7 @@
 package models;
 
 import util.Node;
+import util.OperationCodeGeneration;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class SimpleExpROP extends SimpleExp {
     }
 
     @Override
-    public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+    public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
         return null;
     }
 

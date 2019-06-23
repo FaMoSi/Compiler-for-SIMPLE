@@ -1,12 +1,14 @@
 {
-     g(var int x, var int y){
-        delete x ;
-        delete y ;
-     }
+    f(int m, int n){
 
-     f(var int z){
-        g(z,z) ;
-     }
+    	if (m>n) { print(m+n) ;}
+
+    	else { int x = 1 ; f(m+1,n+1) ; }
+
+    }
+
+    f(5,4);
+
 }
 
 

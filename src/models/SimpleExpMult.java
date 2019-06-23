@@ -1,6 +1,7 @@
 package models;
 
 import util.Node;
+import util.OperationCodeGeneration;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -46,9 +47,25 @@ public class SimpleExpMult extends SimpleExp {
 	}
 
 	@Override
-	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
-		return null;
-	}
+	public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
+		List<Node> timeCode = new LinkedList<>();
 
+		List<Node> leftNodes;
+		List<Node> rightNodes;
+
+		leftNodes = leftSide.codeGeneration(ev, ef, oCgen);
+		timeCode.addAll(leftNodes);
+
+		timeCode.addAll(oCgen.push("a"));
+
+		rightNodes = rightSide.codeGeneration(ev, ef, oCgen);
+		timeCode.addAll(rightNodes);
+
+		timeCode.add(oCgen.top("t"));
+		timeCode.add(oCgen.time("a", "a", "t"));
+		timeCode.add(oCgen.pop());
+
+		return timeCode;
+	}
 
 }

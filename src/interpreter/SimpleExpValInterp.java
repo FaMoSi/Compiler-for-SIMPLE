@@ -1,5 +1,6 @@
-package models;
+package interpreter;
 
+import models.*;
 import util.Node;
 import util.OperationCodeGeneration;
 
@@ -8,12 +9,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class SimpleExpVal extends SimpleExp {
+public class SimpleExpValInterp extends SimpleExp {
 
 	private String type;
+	private String value;
 
-	public SimpleExpVal(String type) {
+
+	public SimpleExpValInterp(String type, String value) {
 		this.type = type;
+		this.value = value;
 	}
 
 	/*
@@ -23,14 +27,23 @@ public class SimpleExpVal extends SimpleExp {
 	 */
 	@Override
 	public List<SemanticError> checkSemantics(EnvironmentVariables e, EnvironmentFunctions f) {
-		List<SemanticError> result = new LinkedList<SemanticError>();
-				
-		return result;
+		return null;
 	}
 
 	@Override
 	public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
-		return null;
+		List<Node> valueCode = new ArrayList<>();
+
+		if (value.equals("true")){
+			valueCode.add(oCgen.li("a", "1"));
+			return valueCode;
+		} else if(value.equals("false")){
+			valueCode.add(oCgen.li("a", "0"));
+			return valueCode;
+		} else {
+			valueCode.add(oCgen.li("a", value));
+			return valueCode;
+		}
 	}
 
 	@Override

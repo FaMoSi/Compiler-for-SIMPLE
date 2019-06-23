@@ -1,6 +1,7 @@
 package models;
 
 import util.Node;
+import util.OperationCodeGeneration;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -46,9 +47,25 @@ public class SimpleExpDiff extends SimpleExp {
 	}
 
 	@Override
-	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
-		return null;
-	}
+	public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
+		List<Node> subCode = new LinkedList<>();
 
+		List<Node> leftNodes;
+		List<Node> rightNodes;
+
+		leftNodes = leftSide.codeGeneration(ev, ef, oCgen);
+		subCode.addAll(leftNodes);
+
+		subCode.addAll(oCgen.push("a"));
+
+		rightNodes = rightSide.codeGeneration(ev, ef, oCgen);
+		subCode.addAll(rightNodes);
+
+		subCode.add(oCgen.top("t"));
+		subCode.add(oCgen.sub("a", "a", "t"));
+		subCode.add(oCgen.pop());
+
+		return subCode;
+	}
 
 }

@@ -1,7 +1,9 @@
 package models;
 
 import util.Node;
+import util.OperationCodeGeneration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleStmtPrint extends SimpleStmt {
@@ -26,8 +28,15 @@ public class SimpleStmtPrint extends SimpleStmt {
 	}
 
 	@Override
-	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
-		return null;
+	public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
+		List<Node> printCode = new ArrayList<>();
+
+		List<Node> expCode = exp.codeGeneration(ev, ef, oCgen);
+
+		printCode.addAll(expCode);
+		printCode.add(oCgen.print("a"));
+
+		return printCode;
 	}
 
 }

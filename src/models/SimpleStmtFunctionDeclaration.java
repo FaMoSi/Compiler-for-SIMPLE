@@ -1,9 +1,12 @@
 package models;
+import interpreter.SimpleStmtBlockInterp;
+import parser.SimpleParser;
 import util.Node;
+import util.OperationCodeGeneration;
 import util.Params;
 import util.Strings;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +16,7 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
     String id;
     SimpleStmtBlock block;
 
-    SimpleStmtFunctionDeclaration(String id, List<SimpleParameter> parameters, SimpleStmtBlock block){
+    public SimpleStmtFunctionDeclaration(String id, List<SimpleParameter> parameters, SimpleStmtBlock block){
         this.id = id;
         this.parameters = parameters;
         this.block = block;
@@ -50,7 +53,7 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
     }
 
     @Override
-    public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+    public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
         return null;
     }
 }

@@ -2,8 +2,10 @@ package models;
 
 import parser.SimpleParser;
 import util.Node;
+import util.OperationCodeGeneration;
 import util.Strings;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -73,7 +75,40 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
     }
 
     @Override
-    public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
-        return null;
+    public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
+        List<Node> functionCallCode = new ArrayList<>();
+
+        List<String> variablesDeclared = ef.getVariablesDeclared(id);
+
+        ev.openScope();
+
+        if(variablesDeclared != null) {
+            //loading local variables
+            for (int i = variablesDeclared.size() - 1; i >= 0; i--) {
+                functionCallCode.add(oCgen.addi("sp", "sp", "-1"));
+            }
+        }
+
+        //loading parameters
+        for(int i = actualParams.size()-1; i >= 0; i--){
+            functionCallCode.addAll(actualParams.get(i).codeGeneration(ev, ef, oCgen));
+            functionCallCode.addAll(oCgen.push("a"));
+        }
+
+        functionCallCode.add(oCgen.move("al","fp"));
+
+        for(int i = 0; i < oCgen.getNestingLevel() - ef.getNestingLevel(id); i++){
+            functionCallCode.add(oCgen.lw("al",0,"al"));
+        }
+
+        functionCallCode.addAll(oCgen.push("fp"));
+
+        ev.closeScope();
+
+        String functionLabel = ef.getFunctionLabel(id);
+        functionCallCode.add(oCgen.jal(functionLabel));
+
+        return functionCallCode;
     }
+
 }

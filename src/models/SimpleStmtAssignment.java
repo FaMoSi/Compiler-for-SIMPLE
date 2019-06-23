@@ -1,6 +1,7 @@
 package models;
 
 import util.Node;
+import util.OperationCodeGeneration;
 import util.Strings;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class SimpleStmtAssignment extends SimpleStmt{
 	}
 
 	@Override
-	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+	public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
 		return null;
 	}
 

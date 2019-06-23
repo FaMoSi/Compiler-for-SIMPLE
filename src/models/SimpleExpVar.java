@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import util.Node;
+import util.OperationCodeGeneration;
 import util.Strings;
 
 public class SimpleExpVar extends SimpleExp {
@@ -34,9 +35,10 @@ public class SimpleExpVar extends SimpleExp {
 	}
 
 	@Override
-	public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
+	public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
 		return null;
 	}
+
 
 	@Override
 	public String getType(EnvironmentVariables e) {

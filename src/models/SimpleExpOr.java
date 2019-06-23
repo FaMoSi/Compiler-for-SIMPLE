@@ -1,6 +1,7 @@
 package models;
 
 import util.Node;
+import util.OperationCodeGeneration;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,10 +26,25 @@ public class SimpleExpOr extends SimpleExp {
     }
 
     @Override
-    public List<Node> codeGeneration(EnvironmentVariables ev, EnvironmentFunctions ef) {
-        return null;
-    }
+    public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
+        List<Node> andCode = new LinkedList<>();
 
+        List<Node> leftNodes;
+        List<Node> rightNodes;
+
+        leftNodes = leftSide.codeGeneration(ev, ef, oCgen);
+        andCode.addAll(leftNodes);
+
+        andCode.addAll(oCgen.push("a"));
+
+        rightNodes = rightSide.codeGeneration(ev, ef, oCgen);
+        andCode.addAll(rightNodes);
+
+        andCode.add(oCgen.top("t"));
+        andCode.add(new Node("or", "a", 0, "a", "t"));
+        andCode.add(oCgen.pop());
+
+        return andCode;    }
     @Override
     public String getType(EnvironmentVariables e) {
 
