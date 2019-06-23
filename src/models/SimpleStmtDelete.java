@@ -41,7 +41,9 @@ public class SimpleStmtDelete extends SimpleStmt {
 
 	@Override
 	public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
-		return null;
+		List<Node> deleteCode = new LinkedList<>();
+
+		return deleteCode;
 	}
 
 }

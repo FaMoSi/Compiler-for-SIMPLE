@@ -38,6 +38,9 @@ public class ExecuteVM {
                 case ("print"):
                     System.out.println("\nOUTPUT: " + getRegister(bytecode.getArg1()));
                     break;
+                case ("delete"):
+
+                    break;
                 case ("li"):
                     i = getIntFromString(bytecode.getArg2());
                     setRegister(bytecode.getArg1(), i);
