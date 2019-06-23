@@ -202,7 +202,7 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 			children.add((SimpleStmt) visitStatement(stmtCtx));
 
 		//construct block statement expression
-		SimpleStmtBlock block = new SimpleStmtBlock(children, ctx);
+		SimpleStmtBlock block = new SimpleStmtBlock(children);
 		
 		return block;
 	}

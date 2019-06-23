@@ -16,7 +16,7 @@ public class SimpleStmtBlock extends SimpleStmt {
 	 * Creates a new block
 	 * @param children: the list of direct children elements of the block
 	 */
-	public SimpleStmtBlock(List<SimpleStmt> children, SimpleParser.BlockContext block) {
+	public SimpleStmtBlock(List<SimpleStmt> children) {
 		this.children = children;
 	}
 

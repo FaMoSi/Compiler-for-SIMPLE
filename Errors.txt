@@ -1,0 +1,2 @@
+syntax-error - line: 5, position: 14, message: missing 'then' at '{'
+syntax-error - line: 10, position: 5, message: missing ';' at '}'
