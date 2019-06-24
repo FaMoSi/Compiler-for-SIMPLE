@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import interpreter.ExecuteVM;
-import interpreter.SimpleStmtBlockInterp;
 import interpreter.SimpleVisitorInterp;
 import models.*;
 
@@ -68,7 +67,7 @@ public class Analyse {
 			} else {
 				System.out.println("Check semantics succeded");
 				SimpleVisitorInterp visitorInterp = new SimpleVisitorInterp();
-				SimpleStmtBlockInterp mainInterpBlock = (SimpleStmtBlockInterp) visitorInterp.visitBlock(block);
+				SimpleStmtBlock mainInterpBlock = (SimpleStmtBlock) visitorInterp.visitBlock(block);
 				codeGeneration = mainInterpBlock.codeGeneration(new EnvironmentVariablesWithOffset(), new EnvironmentFunctionsWithLabel(), new OperationCodeGeneration(0, 0));
 			}
 

@@ -11,9 +11,15 @@ import java.util.List;
 public class SimpleExpVal extends SimpleExp {
 
 	private String type;
+	private String value;
 
 	public SimpleExpVal(String type) {
 		this.type = type;
+	}
+
+	public SimpleExpVal(String type, String value) {
+		this.type = type;
+		this.value = value;
 	}
 
 	/*
@@ -30,7 +36,18 @@ public class SimpleExpVal extends SimpleExp {
 
 	@Override
 	public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
-		return null;
+		List<Node> valueCode = new ArrayList<>();
+
+		if (value.equals("true")){
+			valueCode.add(oCgen.li("a", "1"));
+			return valueCode;
+		} else if(value.equals("false")){
+			valueCode.add(oCgen.li("a", "0"));
+			return valueCode;
+		} else {
+			valueCode.add(oCgen.li("a", value));
+			return valueCode;
+		}
 	}
 
 	@Override
