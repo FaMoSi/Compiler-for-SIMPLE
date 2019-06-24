@@ -82,7 +82,12 @@ public class EnvironmentVariables {
 		scopes.pop();
 		scopesAndAddress.pop();
 	}
-	
+
+	public boolean containsVariableLastBlock(String id){
+		return scopes.peek().containsKey(id);
+	}
+
+
 	/**
 	 * Given an id determines if the variable belongs to the environment
 	 * this is to check the scopes from inner to outer looking for the variable

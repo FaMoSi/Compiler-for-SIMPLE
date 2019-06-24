@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import Semantics.SimpleVisitorSemantic;
 import interpreter.ExecuteVM;
 import interpreter.SimpleVisitorInterp;
 import models.*;
@@ -43,7 +44,7 @@ public class Analyse {
 			parser.setBuildParseTree(true);
 
 			//build custom visitor
-			SimpleVisitorImpl visitor = new SimpleVisitorImpl();
+			SimpleVisitorImpl visitor = new SimpleVisitorSemantic();
 
 			SimpleParser.BlockContext block = parser.block();
 
@@ -55,7 +56,7 @@ public class Analyse {
 			//this is just semantic checking
 			List<SemanticError> errors = new LinkedList<>();
 
-			//errors.addAll(mainBlock.checkSemantics(new EnvironmentVariables(), new EnvironmentFunctions()));
+			errors.addAll(mainBlock.checkSemantics(new EnvironmentVariables(), new EnvironmentFunctions()));
 
 			List<Node> codeGeneration = new LinkedList<>();
 
@@ -87,11 +88,6 @@ public class Analyse {
 				System.out.println("Code Generation vuota");
 			}
 
-
-		/*}catch(RecognitionException e){
-			System.out.println("Some errors where found in the parsing process");
-			System.out.println(e.getMessage());
-			System.out.println(e.getStackTrace());*/
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

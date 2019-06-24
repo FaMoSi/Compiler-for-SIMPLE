@@ -1,18 +1,10 @@
 {
-
-    f(int m, int n){
-
-    	if (m>n) {
-    	    print(m+n);
-    	}
-    	else {
-    	    f(m+1,n+1);
-    	}
-
+    f(){
+        int x = 2;
+        print x;
     }
 
-    f(5,4);
-
+    f();
 }
 
 

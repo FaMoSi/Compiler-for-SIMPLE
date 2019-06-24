@@ -25,7 +25,7 @@ public class SimpleStmtDeclaration extends SimpleStmt {
 
         List<SemanticError> semanticErrors = new LinkedList<>();
 
-        if(ev.containsVariable(id)){
+        if(ev.containsVariableLastBlock(id)){
             semanticErrors.add(new SemanticError(Strings.VariablesAlreadyDeclared + id));
         } else {
             exp.checkSemantics(ev,ef);

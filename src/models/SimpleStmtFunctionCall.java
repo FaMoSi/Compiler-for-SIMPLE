@@ -44,7 +44,7 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
                 e.openScope();
 
                 for (SimpleParameter parameter: parameters) {
-                    if(e.containsVariable(parameter.getID()) == false){
+                    if(e.containsVariableLastBlock(parameter.getID()) == false){
                         e.addVariable(parameter.getID(), parameter.getType());
                     } else {
                         semanticErrors.add(new SemanticError(Strings.VariablesAlreadyDeclared + parameter.getID()));
@@ -66,9 +66,9 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
                         }
                 }
             }
-
-
-            semanticErrors.addAll(body.checkSemanticsFunction(e, f));
+                if(body != null){
+                    semanticErrors.addAll(body.checkSemanticsFunction(e, f));
+                }
         }
 
         return semanticErrors;

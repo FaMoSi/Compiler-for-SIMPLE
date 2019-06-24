@@ -37,7 +37,7 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
         ev.openScope();
 
         for (SimpleParameter parameter: parameters) {
-            if(ev.containsVariable(parameter.getID()) == false){
+            if(ev.containsVariableLastBlock(parameter.getID()) == false){
                 ev.addVariable(parameter.getID(), parameter.getType());
             } else {
                 semanticErrors.add(new SemanticError(Strings.VariablesAlreadyDeclared + parameter.getID()));
