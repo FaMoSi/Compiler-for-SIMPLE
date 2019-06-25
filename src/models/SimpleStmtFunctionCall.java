@@ -1,6 +1,5 @@
 package models;
 
-import parser.SimpleParser;
 import util.Node;
 import util.OperationCodeGeneration;
 import util.Strings;
@@ -12,16 +11,19 @@ import java.util.List;
 public class SimpleStmtFunctionCall extends SimpleStmt {
 
     private List<SimpleExp> actualParams;
-
     private String id;
-
     private SimpleStmtBlock body;
+    private Integer line;
+    private Integer column;
 
-    SimpleStmtFunctionCall(String id, List<SimpleExp> actualParams, SimpleStmtBlock body){
+    SimpleStmtFunctionCall(String id, List<SimpleExp> actualParams, SimpleStmtBlock body, Integer line, Integer column){
         this.id = id;
         this.actualParams = actualParams;
         this.body = body;
+        this.line = line;
+        this.column = column;
     }
+
 
     @Override
     public List<SemanticError> checkSemantics(EnvironmentVariables e, EnvironmentFunctions f) {
@@ -32,43 +34,52 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
             semanticErrors.addAll(exp.checkSemantics(e, f));
         }
 
+        //checking id the function exist
         if(!f.containsFunction(id)){
-            semanticErrors.add(new SemanticError(Strings.FunctionNotDeclared + id));
-        } else {
-            List<SimpleParameter> parameters = f.getFunctionParameters(id);
+            semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.FunctionNotDeclared + id));
+            return semanticErrors;
+        }
 
-            if(parameters.size() != actualParams.size()){
-                semanticErrors.add(new SemanticError(Strings.MysmatchFormalActual));
-            } else {
+        List<SimpleParameter> parameters = f.getFunctionParameters(id);
 
-                e.openScope();
+        e.openScope();
 
-                for (SimpleParameter parameter: parameters) {
-                    if(e.containsVariableLastBlock(parameter.getID()) == false){
-                        e.addVariable(parameter.getID(), parameter.getType());
-                    } else {
-                        semanticErrors.add(new SemanticError(Strings.VariablesAlreadyDeclared + parameter.getID()));
-                    }
-                }
+        //checking if all parameters has been provided
+        if(parameters.size() != actualParams.size()){
+            semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.MysmatchFormalActual));
+            return semanticErrors;
+        }
 
-                for(int i = 0; i < parameters.size(); i++){
-                        try{
-                            if(parameters.get(i).var) {
-                                SimpleExpID test = (SimpleExpID) actualParams.get(i);
-                                e.createAssociationBetweenIdentifiers(parameters.get(i).id, test.getId());
-                            }
-                        }catch (ClassCastException err){
-                            semanticErrors.add(new SemanticError(Strings.FunctionCallVarType));
-                        }
-
-                        if(!parameters.get(i).getType().equals(actualParams.get(i).getType(e))){
-                            semanticErrors.add(new SemanticError(Strings.MysmatchTypeFunctionCall));
-                        }
-                }
+        //checking if every parameter has the right type
+        for (SimpleParameter parameter: parameters) {
+            if(e.containsVariableLastBlock(parameter.getID())){
+                semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.VariablesAlreadyDeclared + parameter.getID()));
+                return semanticErrors;
             }
-                if(body != null){
-                    semanticErrors.addAll(body.checkSemanticsFunction(e, f));
+
+            e.addVariable(parameter.getID(), parameter.getType());
+        }
+
+        //checking if for every parameter passed by var has been provided an identifier
+        for(int i = 0; i < parameters.size(); i++){
+            try{
+                if(parameters.get(i).var) {
+                    SimpleExpID test = (SimpleExpID) actualParams.get(i);
+                    e.createAssociationBetweenIdentifiers(parameters.get(i).id, test.getId());
                 }
+            }catch (ClassCastException err){
+                semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.FunctionCallVarType));
+            }
+            //if not add error
+            if(!parameters.get(i).getType().equals(actualParams.get(i).getType(e))){
+                semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.MysmatchTypeFunctionCall));
+                return semanticErrors;
+            }
+        }
+
+        //the body could be null if the function is calling itself
+        if(body != null){
+            semanticErrors.addAll(body.checkSemanticsFunction(e, f));
         }
 
         return semanticErrors;
@@ -110,5 +121,4 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
 
         return functionCallCode;
     }
-
 }

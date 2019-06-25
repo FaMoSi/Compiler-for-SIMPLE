@@ -10,15 +10,25 @@ import java.util.List;
 
 public class SimpleStmtFunctionDeclaration extends SimpleStmt {
 
-    List<SimpleParameter> parameters;
-    String id;
-    SimpleStmtBlock block;
+    private List<SimpleParameter> parameters;
+    private String id;
+    private SimpleStmtBlock block;
+    private Integer line;
+    private Integer column;
 
     public SimpleStmtFunctionDeclaration(String id, List<SimpleParameter> parameters, SimpleStmtBlock block){
         this.id = id;
         this.parameters = parameters;
         this.block = block;
 
+    }
+
+    public SimpleStmtFunctionDeclaration(String id, List<SimpleParameter> parameters, SimpleStmtBlock block, Integer line, Integer column){
+        this.id = id;
+        this.parameters = parameters;
+        this.block = block;
+        this.line = line;
+        this.column = column;
     }
 
     @Override
@@ -31,7 +41,7 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
         if(ef.containsFunction(id) == false){
             ef.addFunction(id, new Params(parameters));
         } else {
-            semanticErrors.add(new SemanticError(Strings.FunctionAlreadyDeclared + id));
+            semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.FunctionAlreadyDeclared + id));
         }
 
         ev.openScope();

@@ -41,6 +41,8 @@ public class SimpleVisitorSemantic extends SimpleVisitorImpl {
 
     @Override
     public SimpleElementBase visitValue(SimpleParser.ValueContext ctx) {
+        Integer line = ctx.getStart().getLine();
+        Integer column = ctx.getStart().getCharPositionInLine();
 
         if (ctx.INTEGER() != null) {
             return new SimpleExpVal("int");
@@ -49,7 +51,7 @@ public class SimpleVisitorSemantic extends SimpleVisitorImpl {
         } else if (ctx.exp() != null) {
             return visit(ctx.exp());
         } else if (ctx.ID() != null) {
-            return new SimpleExpID(ctx.ID().getText());
+            return new SimpleExpID(ctx.ID().getText(), line, column);
         } else {
             System.out.println("Error visitValue();");
         }

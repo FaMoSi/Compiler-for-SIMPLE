@@ -25,9 +25,12 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 		
 		//get id of variable
 		String id = ctx.ID().getText();
+
+		Integer line = ctx.start.getLine();
+		Integer column = ctx.start.getCharPositionInLine();
 		
 		//construct assignment expression
-		SimpleStmtAssignment assign = new SimpleStmtAssignment(exp, id);
+		SimpleStmtAssignment assign = new SimpleStmtAssignment(exp, id, line, column);
 		return assign;
 	}
 
@@ -44,7 +47,10 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
 		SimpleStmtBlock body = functionAndBody.get(id);
 
-		return new SimpleStmtFunctionCall(id, simpleExps, body);
+		Integer line = ctx.start.getLine();
+		Integer column = ctx.start.getCharPositionInLine();
+
+		return new SimpleStmtFunctionCall(id, simpleExps, body, line, column);
 	}
 
 	@Override
@@ -66,7 +72,10 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
 			functionAndBody.put(id, block);
 
-			return new SimpleStmtFunctionDeclaration(id, parameters, block);
+			Integer line = ctx.start.getLine();
+			Integer column = ctx.start.getCharPositionInLine();
+
+			return new SimpleStmtFunctionDeclaration(id, parameters, block, line, column);
 
 		} else { //var
 
@@ -78,7 +87,10 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
 			String type = ctx.type().getText();
 
-			SimpleStmtDeclaration simpleStmtDeclaration = new SimpleStmtDeclaration(id, type, exp);
+			Integer line = ctx.start.getLine();
+			Integer column = ctx.start.getCharPositionInLine();
+
+			SimpleStmtDeclaration simpleStmtDeclaration = new SimpleStmtDeclaration(id, type, exp, line, column);
 
 			return simpleStmtDeclaration;
 		}
@@ -141,7 +153,7 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
 	@Override
 	public SimpleElementBase visitBlock(SimpleParser.BlockContext ctx) {
-		
+
 		//list for saving children statements
 		List<SimpleStmt> children = new LinkedList<SimpleStmt>();
 		
@@ -157,9 +169,12 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 	
 	@Override
 	public SimpleElementBase visitDeletion(SimpleParser.DeletionContext ctx) {
-		
+
+		Integer line = ctx.start.getLine();
+		Integer column = ctx.start.getCharPositionInLine();
+
 		//construct delete expression with variable id
-		SimpleStmtDelete delete = new SimpleStmtDelete(ctx.ID().getText());
+		SimpleStmtDelete delete = new SimpleStmtDelete(ctx.ID().getText(), line, column);
 		
 		return delete;		
 	}
@@ -167,11 +182,14 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 	@Override
 	public SimpleElementBase visitIfthenelse(SimpleParser.IfthenelseContext ctx) {
 
+		Integer line = ctx.start.getLine();
+		Integer column = ctx.start.getCharPositionInLine();
+
 		SimpleExp guard = (SimpleExp) visit(ctx.exp());
 		SimpleStmtBlock thenBlock = (SimpleStmtBlock) visit(ctx.block(0));
 		SimpleStmtBlock elseBlock = (SimpleStmtBlock) visit(ctx.block(1));
 
-		return new SimpleStmtIfThenElse(guard, thenBlock, elseBlock);
+		return new SimpleStmtIfThenElse(guard, thenBlock, elseBlock, line, column);
 	}
 
 	@Override

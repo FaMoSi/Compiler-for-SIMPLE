@@ -10,13 +10,18 @@ import util.Strings;
 public class SimpleStmtDelete extends SimpleStmt {
 
 	private String id;
+	private Integer line;
+	private Integer column;
+
 
 	/**
 	 * Creates a delete statement
 	 * @param id the variable we want to delete
 	 */
-	public SimpleStmtDelete(String id) {
+	public SimpleStmtDelete(String id, Integer line, Integer column) {
 		this.id = id;
+		this.line = line;
+		this.column = column;
 	}
 
 	/*

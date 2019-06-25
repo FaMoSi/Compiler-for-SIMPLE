@@ -2,6 +2,7 @@ package models;
 
 import util.Node;
 import util.OperationCodeGeneration;
+import util.Strings;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -37,7 +38,6 @@ public class SimpleExpSum extends SimpleExp {
 	@Override
 	public List<SemanticError> checkSemantics(EnvironmentVariables e, EnvironmentFunctions f) {
 		List<SemanticError> result = new LinkedList<SemanticError>();
-		
 		result.addAll(leftSide.checkSemantics(e, f));
 		result.addAll(rightSide.checkSemantics(e, f));
 		

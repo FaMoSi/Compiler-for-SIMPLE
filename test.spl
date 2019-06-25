@@ -1,10 +1,13 @@
 {
-    f(){
-        int x = 2;
-        print x;
-    }
 
-    f();
+    int x = 9;
+
+    if(1) then {
+        delete x;
+     } else {
+        x = 1;
+     }
+
 }
 
 

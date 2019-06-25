@@ -13,6 +13,8 @@ public class SimpleStmtDeclaration extends SimpleStmt {
     private String id;
     private String type;
     private SimpleExp exp;
+    private Integer line;
+    private Integer column;
 
     public SimpleStmtDeclaration(String id, String type, SimpleExp exp){
         this.id = id;
@@ -20,13 +22,22 @@ public class SimpleStmtDeclaration extends SimpleStmt {
         this.type = type;
     }
 
+    public SimpleStmtDeclaration(String id, String type, SimpleExp exp, Integer line, Integer column){
+        this.id = id;
+        this.exp = exp;
+        this.type = type;
+        this.line = line;
+        this.column = column;
+    }
+
+
     @Override
     public List<SemanticError> checkSemantics(EnvironmentVariables ev, EnvironmentFunctions ef) {
 
         List<SemanticError> semanticErrors = new LinkedList<>();
 
         if(ev.containsVariableLastBlock(id)){
-            semanticErrors.add(new SemanticError(Strings.VariablesAlreadyDeclared + id));
+            semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.VariablesAlreadyDeclared + id));
         } else {
             exp.checkSemantics(ev,ef);
 
@@ -35,7 +46,7 @@ public class SimpleStmtDeclaration extends SimpleStmt {
             if(type.equals(expType)){
                 ev.addVariable(id,type);
             } else {
-                semanticErrors.add(new SemanticError(Strings.TypeMismatch));
+                semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.TypeMismatch));
             }
 
         }

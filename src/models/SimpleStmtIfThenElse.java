@@ -10,14 +10,19 @@ import java.util.List;
 
 public class SimpleStmtIfThenElse extends SimpleStmt {
 
-    SimpleExp guard;
-    SimpleStmtBlock thenBlock;
-    SimpleStmtBlock elseBlock;
+    private SimpleExp guard;
+    private SimpleStmtBlock thenBlock;
+    private SimpleStmtBlock elseBlock;
+    private Integer line;
+    private Integer column;
 
-    public SimpleStmtIfThenElse(SimpleExp guard, SimpleStmtBlock thenBlock, SimpleStmtBlock elseBlock){
+
+    public SimpleStmtIfThenElse(SimpleExp guard, SimpleStmtBlock thenBlock, SimpleStmtBlock elseBlock, Integer line, Integer column){
         this.guard = guard;
         this.thenBlock = thenBlock;
         this.elseBlock = elseBlock;
+        this.line = line;
+        this.column = column;
 
     }
 
@@ -35,11 +40,11 @@ public class SimpleStmtIfThenElse extends SimpleStmt {
         semanticErrors.addAll(guard.checkSemantics(ev, ef));
 
         if (guard.getType(ev) != "bool") {
-            semanticErrors.add(new SemanticError(Strings.IfThenElseWrongGuard));
+            semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line, column) + Strings.IfThenElseWrongGuard));
         }
 
         if (!thenEnvironment.equals(elseEnvironment) || !elseEnvironment.equals(thenEnvironment)) {
-            semanticErrors.add(new SemanticError(Strings.IfThenElseNotBalanced));
+            semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line, column) + Strings.IfThenElseNotBalanced));
         }
 
         return semanticErrors;

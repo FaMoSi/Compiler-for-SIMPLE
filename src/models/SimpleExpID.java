@@ -12,9 +12,17 @@ import java.util.List;
 public class SimpleExpID extends SimpleExp {
 
     private String id;
+    private Integer line;
+    private Integer column;
 
     public SimpleExpID(String id){
         this.id = id;
+    }
+
+    public SimpleExpID(String id, Integer line, Integer column){
+        this.id = id;
+        this.line = line;
+        this.column = column;
     }
 
     @Override
@@ -22,7 +30,7 @@ public class SimpleExpID extends SimpleExp {
         List<SemanticError> semanticErrors = new LinkedList<>();
 
         if(ev.containsVariable(id) == false){
-            semanticErrors.add(new SemanticError(Strings.ErrorVariableDoesntExist+id));
+            semanticErrors.add(new SemanticError("Error line: " + line + ":" + column + " " + Strings.ErrorVariableDoesntExist+id));
         }
 
         return semanticErrors;

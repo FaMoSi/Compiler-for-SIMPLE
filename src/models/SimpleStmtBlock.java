@@ -71,7 +71,6 @@ public class SimpleStmtBlock extends SimpleStmt {
 		LinkedList<SemanticError> result = new LinkedList<SemanticError>();
 
 		//create scope for inner elements
-		//e.openScope();
 
 		f.openScope();
 

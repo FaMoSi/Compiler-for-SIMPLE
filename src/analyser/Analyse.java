@@ -43,12 +43,16 @@ public class Analyse {
 			//tell the parser to build the AST
 			parser.setBuildParseTree(true);
 
+			ErrorListener errorListener  = (ErrorListener) parser.getErrorListeners().get(0);
+
 			//build custom visitor
 			SimpleVisitorImpl visitor = new SimpleVisitorSemantic();
 
 			SimpleParser.BlockContext block = parser.block();
 
-			//visit the root, this will recursively visit the whole tree
+			if(!errorListener.error()){
+
+				//visit the root, this will recursively visit the whole tree
 			SimpleStmtBlock mainBlock = (SimpleStmtBlock) visitor.visitBlock(block);
 
 			//check semantics
@@ -86,6 +90,8 @@ public class Analyse {
 				vm.run();
 			} else {
 				System.out.println("Code Generation vuota");
+			}
+
 			}
 
 		} catch (IOException e) {
