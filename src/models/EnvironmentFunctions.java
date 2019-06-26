@@ -10,13 +10,14 @@ public class EnvironmentFunctions {
 
 	//contains the stack of scopes. the last one is always the current active scope
 	//this linked list is used as a stack with LIFO behavior
-	public LinkedList<HashMap<String, Params>> scopes = new LinkedList<HashMap<String,Params>>();
+	private LinkedList<HashMap<String, Params>> scopes;
 
-	/**
-	 * Adds variable with the given id to existence	
-	 * @param id
-	 */
-	public void addFunction(String id, Params params) {
+	public EnvironmentFunctions() {
+		scopes = new LinkedList<HashMap<String,Params>>();
+	}
+
+
+	void addFunction(String id, Params params) {
 		// TODO Auto-generated method stub
 		scopes.peek().put(id, params);
 	}
@@ -27,7 +28,7 @@ public class EnvironmentFunctions {
 	 * When a scope is inserted old scope is clone so previous defined
 	 * variables still exist
 	 */
-	public void openScope(){
+	void openScope(){
 		scopes.push(new HashMap<String, Params>());
 	}
 	
@@ -36,7 +37,7 @@ public class EnvironmentFunctions {
 	 * Drops the current scope and returns to the outer scope
 	 * removing all changes and additions done within this scope 
 	 */
-	public void closeScope(){
+	void closeScope(){
 		scopes.pop();
 	}
 	
@@ -45,7 +46,7 @@ public class EnvironmentFunctions {
 	 * this is to check the scopes from inner to outer looking for the variable
 	 * @param id
 	 */
-	public boolean containsFunction(String id){
+	 boolean containsFunction(String id){
 		
 		for(HashMap<String, Params> scope:scopes){
 			if(scope.containsKey(id))
@@ -55,7 +56,7 @@ public class EnvironmentFunctions {
 		return false;
 	}
 
-	public List<SimpleParameter> getFunctionParameters(String id){
+	 List<SimpleParameter> getFunctionParameters(String id){
 
 		for(HashMap<String, Params> scope:scopes){
 			if(scope.containsKey(id))

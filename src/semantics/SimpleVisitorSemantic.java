@@ -1,4 +1,4 @@
-package Semantics;
+package semantics;
 
 import models.*;
 import parser.SimpleParser;

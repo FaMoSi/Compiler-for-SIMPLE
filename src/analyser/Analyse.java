@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import Semantics.SimpleVisitorSemantic;
+import lexical.ErrorListener;
+import semantics.SimpleVisitorSemantic;
 import interpreter.ExecuteVM;
 import interpreter.SimpleVisitorInterp;
 import models.*;
