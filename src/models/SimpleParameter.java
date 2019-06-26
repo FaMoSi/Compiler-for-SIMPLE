@@ -8,11 +8,11 @@ import java.util.List;
 
 public class SimpleParameter extends SimpleElementBase {
 
-    Boolean var;
-    String id;
-    String type;
+    private Boolean var;
+    private String id;
+    private String type;
 
-    public SimpleParameter(String id, String type, Boolean var){
+    SimpleParameter(String id, String type, Boolean var){
         this.var = var;
         this.id = id;
         this.type = type;
@@ -21,15 +21,15 @@ public class SimpleParameter extends SimpleElementBase {
     @Override
     public List<SemanticError> checkSemantics(EnvironmentVariables ev, EnvironmentFunctions ef) {
 
-        List<SemanticError> semanticErrors = new LinkedList<>();
-
-        return semanticErrors;
+        return new LinkedList<>();
     }
 
     @Override
     public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
         return null;
     }
+
+    public Boolean getVar(){ return var; }
 
     public String getType(){ return type;}
 

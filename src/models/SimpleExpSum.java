@@ -2,21 +2,17 @@ package models;
 
 import util.Node;
 import util.OperationCodeGeneration;
-import util.Strings;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class SimpleExpSum extends SimpleExp {
 	
-	SimpleExp leftSide, rightSide;
+	private SimpleExp leftSide, rightSide;
 
-	/**
-	 * Represents a binary expression sum
-	 * @param leftSide 
-	 * @param rightSide
-	 */
-	public SimpleExpSum(SimpleExp leftSide, SimpleExp rightSide) {
+
+	SimpleExpSum(SimpleExp leftSide, SimpleExp rightSide) {
 		this.leftSide = leftSide;
 		this.rightSide = rightSide;
 	}
@@ -37,7 +33,8 @@ public class SimpleExpSum extends SimpleExp {
 	 */
 	@Override
 	public List<SemanticError> checkSemantics(EnvironmentVariables e, EnvironmentFunctions f) {
-		List<SemanticError> result = new LinkedList<SemanticError>();
+		List<SemanticError> result = new LinkedList<>();
+
 		result.addAll(leftSide.checkSemantics(e, f));
 		result.addAll(rightSide.checkSemantics(e, f));
 		
@@ -46,7 +43,7 @@ public class SimpleExpSum extends SimpleExp {
 
 	@Override
 	public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
-		List<Node> sumCode = new LinkedList<>();
+		List<Node> sumCode = new ArrayList<>();
 
 		List<Node> leftNodes;
 		List<Node> rightNodes;

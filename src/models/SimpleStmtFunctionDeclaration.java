@@ -16,14 +16,7 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
     private Integer line;
     private Integer column;
 
-    public SimpleStmtFunctionDeclaration(String id, List<SimpleParameter> parameters, SimpleStmtBlock block){
-        this.id = id;
-        this.parameters = parameters;
-        this.block = block;
-
-    }
-
-    public SimpleStmtFunctionDeclaration(String id, List<SimpleParameter> parameters, SimpleStmtBlock block, Integer line, Integer column){
+    SimpleStmtFunctionDeclaration(String id, List<SimpleParameter> parameters, SimpleStmtBlock block, Integer line, Integer column){
         this.id = id;
         this.parameters = parameters;
         this.block = block;
@@ -36,9 +29,7 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
 
         List<SemanticError> semanticErrors = new LinkedList<>();
 
-        List<Params> params = new LinkedList<>();
-
-        if(ef.containsFunction(id) == false){
+        if (!ef.containsFunctionLastBlock(id)) {
             ef.addFunction(id, new Params(parameters));
         } else {
             semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.FunctionAlreadyDeclared + id));
@@ -47,15 +38,14 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
         ev.openScope();
 
         for (SimpleParameter parameter: parameters) {
-            if(ev.containsVariableLastBlock(parameter.getID()) == false){
+            if(!ev.containsVariableLastBlock(parameter.getID())){
                 ev.addVariable(parameter.getID(), parameter.getType());
             } else {
-                semanticErrors.add(new SemanticError(Strings.VariablesAlreadyDeclared + parameter.getID()));
+                semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.VariablesAlreadyDeclared + parameter.getID()));
             }
         }
 
         semanticErrors.addAll(block.checkSemanticsFunction(ev, ef));
-
 
         return semanticErrors;
     }
@@ -123,13 +113,11 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
         for (SimpleStmt children : block.children) {
             if (children.getClass() == SimpleStmtDeclaration.class){
                 SimpleStmtDeclaration declaration = (SimpleStmtDeclaration) children;
-                if (declaration.getType() != null){
-                    variablesDeclared.add(declaration.getID());
-                    ev.varDeclaration(declaration.getID());
-                }
+
+                variablesDeclared.add(declaration.getID());
+                ev.varDeclaration(declaration.getID());
             }
         }
-
         return variablesDeclared;
     }
 }

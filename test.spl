@@ -1,13 +1,31 @@
 {
 
-    int x = 9;
+    g(){
+        print 11;
+    }
 
-    if(1) then {
-        delete x;
-     } else {
-        x = 1;
-     }
+    f(){
+        print 15;
+    }
 
+    {
+
+        f(int x){
+          print x;
+        }
+
+        {
+
+            {
+                int t = 9;
+
+               f(t);
+
+            }
+        }
+    }
+
+    f();
 }
 
 

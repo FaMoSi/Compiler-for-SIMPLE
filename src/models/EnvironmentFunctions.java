@@ -40,12 +40,7 @@ public class EnvironmentFunctions {
 	void closeScope(){
 		scopes.pop();
 	}
-	
-	/**
-	 * Given an id determines if the variable belongs to the environment
-	 * this is to check the scopes from inner to outer looking for the variable
-	 * @param id
-	 */
+
 	 boolean containsFunction(String id){
 		
 		for(HashMap<String, Params> scope:scopes){
@@ -56,6 +51,10 @@ public class EnvironmentFunctions {
 		return false;
 	}
 
+	boolean containsFunctionLastBlock(String id){
+		return scopes.peek().get(id) != null;
+	}
+
 	 List<SimpleParameter> getFunctionParameters(String id){
 
 		for(HashMap<String, Params> scope:scopes){
@@ -63,6 +62,6 @@ public class EnvironmentFunctions {
 				return scope.get(id).getSimpleParameters();
 		}
 
-		return null;
+		return new LinkedList<>();
 	}
 }

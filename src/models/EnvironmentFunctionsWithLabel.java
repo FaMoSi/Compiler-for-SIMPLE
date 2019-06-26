@@ -11,12 +11,12 @@ public class EnvironmentFunctionsWithLabel {
 
     private List<HashMap> identifierAndVariablesDeclared = new LinkedList<>();
 
-    public void openScope() {
+    void openScope() {
         identifierAndLabel.add(new HashMap());
         identifierAndVariablesDeclared.add(new HashMap());
     }
 
-    public String newFunctionDeclaration(String identifier, List<String> variablesDeclared){
+    String newFunctionDeclaration(String identifier, List<String> variablesDeclared){
         int blockNumber = identifierAndLabel.size()-1;
         String freshLabel = getFreshLabel();
         identifierAndVariablesDeclared.get(blockNumber).put(identifier, variablesDeclared);
@@ -25,7 +25,7 @@ public class EnvironmentFunctionsWithLabel {
         return freshLabel;
     }
 
-    public String getFunctionLabel(String identifier){
+    String getFunctionLabel(String identifier){
         for(int i = identifierAndLabel.size()-1; i >= 0; i--){
             if(identifierAndLabel.get(i).get(identifier) != null){
                 return (String) identifierAndLabel.get(i).get(identifier);
@@ -34,7 +34,7 @@ public class EnvironmentFunctionsWithLabel {
         return null;
     }
 
-    public List<String> getVariablesDeclared(String identifier){
+    List<String> getVariablesDeclared(String identifier){
         for(int i = identifierAndVariablesDeclared.size()-1; i >= 0; i--){
             if(identifierAndVariablesDeclared.get(i) != null){
                 return (List<String>) identifierAndVariablesDeclared.get(i).get(identifier);
@@ -43,20 +43,20 @@ public class EnvironmentFunctionsWithLabel {
         return null;
     }
 
-    public int getNestingLevel(String identifier){
+    int getNestingLevel(String identifier){
         for(int i = identifierAndLabel.size()-1; i >= 0; i--){
-            if(identifierAndLabel.get(i) != null){
+            if(identifierAndLabel.get(i).get(identifier) != null){
                 return i;
             }
         }
         return -1;
     }
 
-    public String getFreshLabel(){
+    private String getFreshLabel(){
         return "flabel" + labelCounter++;
     }
 
-    public void closeScope() {
+    void closeScope() {
         identifierAndLabel.remove(identifierAndLabel.size()-1);
         identifierAndVariablesDeclared.remove(identifierAndVariablesDeclared.size()-1);
     }

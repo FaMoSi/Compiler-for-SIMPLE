@@ -3,19 +3,16 @@ package models;
 import util.Node;
 import util.OperationCodeGeneration;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class SimpleExpMult extends SimpleExp {
 	
-	SimpleExp leftSide, rightSide;
+	private SimpleExp leftSide, rightSide;
 
-	/**
-	 * Represents a binary expression sum
-	 * @param leftSide 
-	 * @param rightSide
-	 */
-	public SimpleExpMult(SimpleExp leftSide, SimpleExp rightSide) {
+
+	SimpleExpMult(SimpleExp leftSide, SimpleExp rightSide) {
 		this.leftSide = leftSide;
 		this.rightSide = rightSide;
 	}
@@ -38,7 +35,7 @@ public class SimpleExpMult extends SimpleExp {
 	 */
 	@Override
 	public List<SemanticError> checkSemantics(EnvironmentVariables e, EnvironmentFunctions f) {
-		List<SemanticError> result = new LinkedList<SemanticError>();
+		List<SemanticError> result = new LinkedList<>();
 		
 		result.addAll(leftSide.checkSemantics(e, f));
 		result.addAll(rightSide.checkSemantics(e, f));
@@ -48,7 +45,7 @@ public class SimpleExpMult extends SimpleExp {
 
 	@Override
 	public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
-		List<Node> timeCode = new LinkedList<>();
+		List<Node> timeCode = new ArrayList<>();
 
 		List<Node> leftNodes;
 		List<Node> rightNodes;

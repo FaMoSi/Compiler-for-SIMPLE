@@ -1,6 +1,5 @@
 package models;
 
-import parser.SimpleParser;
 import util.Node;
 import util.OperationCodeGeneration;
 
@@ -16,12 +15,8 @@ public class SimpleStmtBlock extends SimpleStmt {
 	 * Creates a new block
 	 * @param children: the list of direct children elements of the block
 	 */
-	public SimpleStmtBlock(List<SimpleStmt> children) {
+	SimpleStmtBlock(List<SimpleStmt> children) {
 		this.children = children;
-	}
-
-	public SimpleStmtBlock() {
-
 	}
 
 
@@ -31,7 +26,7 @@ public class SimpleStmtBlock extends SimpleStmt {
 		f.openScope();
 
 		//initialize result variable
-		LinkedList<SemanticError> result = new LinkedList<SemanticError>();
+		LinkedList<SemanticError> result = new LinkedList<>();
 
 		//check children semantics
 		if(children!=null)
@@ -47,13 +42,13 @@ public class SimpleStmtBlock extends SimpleStmt {
 	}
 
 
-	public List<SemanticError> checkSemanticsIfThenElse(EnvironmentVariables e, EnvironmentFunctions f) {
+	List<SemanticError> checkSemanticsIfThenElse(EnvironmentVariables e, EnvironmentFunctions f) {
 		//create scope for inner elements
 		e.openScope();
 		f.openScope();
 
 		//initialize result variable
-		LinkedList<SemanticError> result = new LinkedList<SemanticError>();
+		LinkedList<SemanticError> result = new LinkedList<>();
 
 		//check children semantics
 		if(children!=null)
@@ -65,10 +60,10 @@ public class SimpleStmtBlock extends SimpleStmt {
 		return result;
 	}
 
-	public List<SemanticError> checkSemanticsFunction(EnvironmentVariables e, EnvironmentFunctions f) {
+	List<SemanticError> checkSemanticsFunction(EnvironmentVariables e, EnvironmentFunctions f) {
 
 		//initialize result variable
-		LinkedList<SemanticError> result = new LinkedList<SemanticError>();
+		LinkedList<SemanticError> result = new LinkedList<>();
 
 		//create scope for inner elements
 
@@ -124,7 +119,7 @@ public class SimpleStmtBlock extends SimpleStmt {
 		codeBlock.add(oCgen.top("fp"));
 		codeBlock.add(oCgen.pop());
 
-		for (String var: variablesDeclared) {
+		for (String ignored : variablesDeclared) {
 			codeBlock.add(oCgen.pop());
 		}
 
@@ -137,7 +132,7 @@ public class SimpleStmtBlock extends SimpleStmt {
 		return codeBlock;
 	}
 
-	public List<Node> codeGenerationDeclaration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
+	List<Node> codeGenerationDeclaration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
 		List<Node> codeBlock = new ArrayList<>();
 
 		//list for saving children statements

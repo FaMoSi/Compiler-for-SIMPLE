@@ -24,7 +24,6 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
         this.column = column;
     }
 
-
     @Override
     public List<SemanticError> checkSemantics(EnvironmentVariables e, EnvironmentFunctions f) {
 
@@ -34,7 +33,7 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
             semanticErrors.addAll(exp.checkSemantics(e, f));
         }
 
-        //checking id the function exist
+        //checking if the function exist
         if(!f.containsFunction(id)){
             semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.FunctionNotDeclared + id));
             return semanticErrors;
@@ -63,9 +62,9 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
         //checking if for every parameter passed by var has been provided an identifier
         for(int i = 0; i < parameters.size(); i++){
             try{
-                if(parameters.get(i).var) {
+                if(parameters.get(i).getVar()) {
                     SimpleExpID test = (SimpleExpID) actualParams.get(i);
-                    e.createAssociationBetweenIdentifiers(parameters.get(i).id, test.getId());
+                    e.createAssociationBetweenIdentifiers(parameters.get(i).getID(), test.getID());
                 }
             }catch (ClassCastException err){
                 semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.FunctionCallVarType));

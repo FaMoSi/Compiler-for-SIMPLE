@@ -5,6 +5,7 @@ import util.Node;
 import util.OperationCodeGeneration;
 import util.Strings;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,13 +17,8 @@ public class SimpleStmtDeclaration extends SimpleStmt {
     private Integer line;
     private Integer column;
 
-    public SimpleStmtDeclaration(String id, String type, SimpleExp exp){
-        this.id = id;
-        this.exp = exp;
-        this.type = type;
-    }
 
-    public SimpleStmtDeclaration(String id, String type, SimpleExp exp, Integer line, Integer column){
+    SimpleStmtDeclaration(String id, String type, SimpleExp exp, Integer line, Integer column){
         this.id = id;
         this.exp = exp;
         this.type = type;
@@ -56,7 +52,7 @@ public class SimpleStmtDeclaration extends SimpleStmt {
 
     @Override
     public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
-        List<Node> codeDeclaration = new LinkedList<>();
+        List<Node> codeDeclaration = new ArrayList<>();
 
         codeDeclaration.addAll(exp.codeGeneration(ev, ef, oCgen));
 

@@ -17,7 +17,7 @@ public class SimpleStmtIfThenElse extends SimpleStmt {
     private Integer column;
 
 
-    public SimpleStmtIfThenElse(SimpleExp guard, SimpleStmtBlock thenBlock, SimpleStmtBlock elseBlock, Integer line, Integer column){
+    SimpleStmtIfThenElse(SimpleExp guard, SimpleStmtBlock thenBlock, SimpleStmtBlock elseBlock, Integer line, Integer column){
         this.guard = guard;
         this.thenBlock = thenBlock;
         this.elseBlock = elseBlock;
@@ -39,7 +39,7 @@ public class SimpleStmtIfThenElse extends SimpleStmt {
 
         semanticErrors.addAll(guard.checkSemantics(ev, ef));
 
-        if (guard.getType(ev) != "bool") {
+        if (!guard.getType(ev).equals("bool")) {
             semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line, column) + Strings.IfThenElseWrongGuard));
         }
 

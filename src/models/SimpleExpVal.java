@@ -29,9 +29,8 @@ public class SimpleExpVal extends SimpleExp {
 	 */
 	@Override
 	public List<SemanticError> checkSemantics(EnvironmentVariables e, EnvironmentFunctions f) {
-		List<SemanticError> result = new LinkedList<SemanticError>();
-				
-		return result;
+
+		return new LinkedList<>();
 	}
 
 	@Override

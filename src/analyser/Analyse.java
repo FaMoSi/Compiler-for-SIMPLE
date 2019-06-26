@@ -105,7 +105,7 @@ public class Analyse {
 	private static Node[] generateCodeWithLabelReference(Node[] code, List<Node> codeList) {
 		HashMap<String, Integer> labelAdd = new HashMap<>();
 		HashMap<String, List<Integer>> labelRef = new HashMap<>();
-		List<Integer> indexList = new LinkedList<>();
+		List<Integer> indexList;
 
 		int i = 0;
 		for (Node node: codeList) {

@@ -10,28 +10,27 @@ import java.util.List;
 
 public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
-	public HashMap<String, SimpleStmtBlock> functionAndBody = new HashMap<>();
+	private HashMap<String, SimpleStmtBlock> functionAndBody = new HashMap<>();
 
 	@Override
 	public SimpleElementBase visitStatement(SimpleParser.StatementContext ctx) {
 		//visit the first child, this works for every case
 		return visit(ctx.getChild(0));
 	}
-	
+
 	@Override
 	public SimpleElementBase visitAssignment(SimpleParser.AssignmentContext ctx) {
 		//get expression
 		SimpleExp exp = (SimpleExp) visit(ctx.exp());
-		
+
 		//get id of variable
 		String id = ctx.ID().getText();
 
 		Integer line = ctx.start.getLine();
 		Integer column = ctx.start.getCharPositionInLine();
-		
+
 		//construct assignment expression
-		SimpleStmtAssignment assign = new SimpleStmtAssignment(exp, id, line, column);
-		return assign;
+		return new SimpleStmtAssignment(exp, id, line, column);
 	}
 
 	@Override
@@ -90,9 +89,7 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 			Integer line = ctx.start.getLine();
 			Integer column = ctx.start.getCharPositionInLine();
 
-			SimpleStmtDeclaration simpleStmtDeclaration = new SimpleStmtDeclaration(id, type, exp, line, column);
-
-			return simpleStmtDeclaration;
+			return new SimpleStmtDeclaration(id, type, exp, line, column);
 		}
 	}
 
@@ -110,21 +107,28 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
 	@Override
 	public SimpleElementBase visitExp(SimpleParser.ExpContext ctx) {
+
+		//Case of a negated expression
+		if(ctx.getText().startsWith("-")){
+			SimpleExp expNeg = (SimpleExp) visit(ctx.left);
+			return new SimpleExpNeg(expNeg);
+		}
+
 		if(ctx.op == null){
 			return visit(ctx.left);
-		} else {
-			SimpleExp left = (SimpleExp) visit(ctx.left);
-			SimpleExp right = (SimpleExp) visit(ctx.right);
-			switch (ctx.op.getText()){
-				case "+":
-					return new SimpleExpSum(left, right);
-				case "-":
-					return new SimpleExpDiff(left, right);
-				default:
-					System.out.println("Error visitExp();");
-			}
 		}
-		return null;
+
+		SimpleExp left = (SimpleExp) visit(ctx.left);
+		SimpleExp right = (SimpleExp) visit(ctx.right);
+		switch (ctx.op.getText()){
+			case "+":
+				return new SimpleExpSum(left, right);
+			case "-":
+				return new SimpleExpDiff(left, right);
+			default:
+				System.out.println("Error visitExp();");
+				return null;
+		}
 	}
 
 	@Override
@@ -132,41 +136,38 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
 		if(ctx.op == null){
 			return visit(ctx.left);
-		} else {
-
-			String operation = ctx.op.getText();
-
-			SimpleExp left = (SimpleExp) visit(ctx.left);
-			SimpleExp right = (SimpleExp) visit(ctx.right);
-
-			switch (operation){
-				case "*":
-					return new SimpleExpMult(left, right);
-				case "/":
-					return new SimpleExpDiv(left, right);
-				default:
-					System.out.println("Error visitTerm();");
-			}
 		}
-		return null;
+
+		String operation = ctx.op.getText();
+
+		SimpleExp left = (SimpleExp) visit(ctx.left);
+		SimpleExp right = (SimpleExp) visit(ctx.right);
+
+		switch (operation){
+			case "*":
+				return new SimpleExpMult(left, right);
+			case "/":
+				return new SimpleExpDiv(left, right);
+			default:
+				System.out.println("Error visitTerm();");
+				return null;
+		}
 	}
 
 	@Override
 	public SimpleElementBase visitBlock(SimpleParser.BlockContext ctx) {
 
 		//list for saving children statements
-		List<SimpleStmt> children = new LinkedList<SimpleStmt>();
-		
+		List<SimpleStmt> children = new LinkedList<>();
+
 		//visit each children
 		for(SimpleParser.StatementContext stmtCtx : ctx.statement())
 			children.add((SimpleStmt) visitStatement(stmtCtx));
 
 		//construct block statement expression
-		SimpleStmtBlock block = new SimpleStmtBlock(children);
-		
-		return block;
+		return new SimpleStmtBlock(children);
 	}
-	
+
 	@Override
 	public SimpleElementBase visitDeletion(SimpleParser.DeletionContext ctx) {
 
@@ -174,9 +175,7 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 		Integer column = ctx.start.getCharPositionInLine();
 
 		//construct delete expression with variable id
-		SimpleStmtDelete delete = new SimpleStmtDelete(ctx.ID().getText(), line, column);
-		
-		return delete;		
+		return new SimpleStmtDelete(ctx.ID().getText(), line, column);
 	}
 
 	@Override
@@ -194,13 +193,11 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
 	@Override
 	public SimpleElementBase visitPrint(SimpleParser.PrintContext ctx) {
-		
+
 		//get expression
 		SimpleExp exp = (SimpleExp) visit(ctx.exp());
-		
+
 		//construct print exp
-		SimpleStmtPrint print = new SimpleStmtPrint(exp);
-		
-		return print;
+		return new SimpleStmtPrint(exp);
 	}
 }

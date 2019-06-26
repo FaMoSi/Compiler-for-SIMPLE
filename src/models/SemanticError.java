@@ -2,7 +2,7 @@ package models;
 
 public class SemanticError {
 	
-	String errorDescription;
+	private String errorDescription;
 	
 	//it should be good to have also 
 	//int errorLine;

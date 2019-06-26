@@ -29,7 +29,7 @@ public class SimpleExpID extends SimpleExp {
     public List<SemanticError> checkSemantics(EnvironmentVariables ev, EnvironmentFunctions ef) {
         List<SemanticError> semanticErrors = new LinkedList<>();
 
-        if(ev.containsVariable(id) == false){
+        if(!ev.containsVariable(id)){
             semanticErrors.add(new SemanticError("Error line: " + line + ":" + column + " " + Strings.ErrorVariableDoesntExist+id));
         }
 
@@ -43,9 +43,9 @@ public class SimpleExpID extends SimpleExp {
 
         idCode.add(oCgen.move("al", "fp"));
 
-        int offset = (int) offsetAndNestingLevel.getKey();
+        int offset = offsetAndNestingLevel.getKey();
 
-        for(int i = 0; i < oCgen.getNestingLevel() - (int) offsetAndNestingLevel.getValue(); i++){
+        for(int i = 0; i < oCgen.getNestingLevel() - offsetAndNestingLevel.getValue(); i++){
             idCode.add(oCgen.lw("al", 0, "al"));
         }
 
@@ -58,7 +58,7 @@ public class SimpleExpID extends SimpleExp {
         return e.getVariableType(id);
     }
 
-    public String getId() { return id; }
+    public String getID() { return id; }
 
 
 }

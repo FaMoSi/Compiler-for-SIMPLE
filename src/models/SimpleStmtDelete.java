@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class SimpleStmtDelete extends SimpleStmt {
 	 * Creates a delete statement
 	 * @param id the variable we want to delete
 	 */
-	public SimpleStmtDelete(String id, Integer line, Integer column) {
+	SimpleStmtDelete(String id, Integer line, Integer column) {
 		this.id = id;
 		this.line = line;
 		this.column = column;
@@ -31,22 +32,20 @@ public class SimpleStmtDelete extends SimpleStmt {
 	 */
 	@Override
 	public List<SemanticError> checkSemantics(EnvironmentVariables e, EnvironmentFunctions f) {
-		List<SemanticError> result = new LinkedList<SemanticError>();
-		
+		List<SemanticError> result = new LinkedList<>();
+
 		//check for the variable
-		if(!e.containsVariable(id))
-			result.add(new SemanticError(Strings.ErrorVariableDoesntExist + id));
-		
-		//if the variable does exist then delete it from the environment
-		else
-			e.deleteVariable(id);
-		
+		if(!e.containsVariable(id)) {
+            result.add(new SemanticError(Strings.lineAndColunmn(line, column) + Strings.ErrorVariableDoesntExist + id));
+        } else {
+            e.deleteVariable(id);
+        }
 		return result;
 	}
 
 	@Override
 	public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
-		List<Node> deleteCode = new LinkedList<>();
+		List<Node> deleteCode = new ArrayList<>();
 			ev.deleteVariable(id);
 		return deleteCode;
 	}

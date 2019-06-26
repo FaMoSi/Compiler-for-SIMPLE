@@ -3,8 +3,7 @@ package interpreter;
 import util.Node;
 
 public class ExecuteVM {
-    public static final int CODESIZE = 10000;
-    public static final int MEMSIZE = 10000;
+    private static final int MEMSIZE = 10000;
     private Node[] code;
     private int[] memory = new int[MEMSIZE];
     private int ip = 0;         // ip = instruction pointer
@@ -18,7 +17,6 @@ public class ExecuteVM {
     public ExecuteVM(Node[] code) {
         this.code = code;
     }
-    int max = 0;
 
     public void run() {
         System.out.println("\n\n\n\n\n\nCall Stack:\n");
@@ -30,7 +28,6 @@ public class ExecuteVM {
 
             int r1, r2;
             boolean b1, b2;
-            int address;
             int offset;
             int i;
 

@@ -3,11 +3,12 @@ package models;
 import util.Node;
 import util.OperationCodeGeneration;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class SimpleExpOr extends SimpleExp {
-    SimpleExp leftSide, rightSide;
+    private SimpleExp leftSide, rightSide;
 
 
     public SimpleExpOr(SimpleExp leftSide, SimpleExp rightSide){
@@ -27,7 +28,7 @@ public class SimpleExpOr extends SimpleExp {
 
     @Override
     public List<Node> codeGeneration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
-        List<Node> andCode = new LinkedList<>();
+        List<Node> andCode = new ArrayList<>();
 
         List<Node> leftNodes;
         List<Node> rightNodes;

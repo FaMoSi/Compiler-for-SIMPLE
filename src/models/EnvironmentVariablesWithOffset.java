@@ -19,15 +19,14 @@ public class EnvironmentVariablesWithOffset extends EnvironmentVariables {
         offset = 1;
     }
 
-
-    public void varDeclaration(String id){
+    void varDeclaration(String id){
         int nestingLevel = identifierAndOffset.size()-1;
 
         identifierAndOffset.get(nestingLevel).put(id, offset);
         offset++;
     }
 
-    public Pair getOffsetAndNestingLevel(String identifier){
+    Pair getOffsetAndNestingLevel(String identifier){
         int nestingLevel = identifierAndOffset.size();
 
         for(int i = identifierAndOffset.size()-1; i >= 0; i--){
@@ -38,7 +37,6 @@ public class EnvironmentVariablesWithOffset extends EnvironmentVariables {
             }
             nestingLevel--;
         }
-
         return null;
     }
 
