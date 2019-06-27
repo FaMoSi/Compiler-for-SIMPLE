@@ -19,9 +19,12 @@ public class ExecuteVM {
     }
 
     public void run() {
+        System.out.println("\n\n\n\n\n\nCall Stack:\n");
         while (true) {
 
             Node bytecode = code[ip++]; // fetch
+
+            System.out.println("instr: " + (ip) + " " + bytecode.getInstr() + " arg1: "+ bytecode.getArg1()+" offset: "+bytecode.getOffset()+" arg2: "+ bytecode.getArg2()+" arg3: " + bytecode.getArg3()+"\n");
 
             int r1, r2;
             boolean b1, b2;
@@ -31,7 +34,7 @@ public class ExecuteVM {
 
             switch (bytecode.getInstr()) {
                 case ("print"):
-                    System.out.println(getRegister(bytecode.getArg1()));
+                    System.out.println("\nOUTPUT: " + getRegister(bytecode.getArg1()));
                     break;
                 case ("delete"):
 
@@ -143,7 +146,19 @@ public class ExecuteVM {
                 default:
                     break;
             }
+
+            printStack();
+            System.out.println("fp: "+ fp+ " ip: "+ ip + " ra: "+ ra + " a: " + a + " t "+ t +" al: " + al + " ip: " + ip +" sp: "+sp + "\n");
+
         }
+    }
+
+    private void printStack(){
+        for(int i = sp; i < MEMSIZE; i++){
+            System.out.println("Memory address: "+i+" content -> "+ memory[i]);
+        }
+        System.out.println("\n\n");
+
     }
 
     private int getRegister(String register){

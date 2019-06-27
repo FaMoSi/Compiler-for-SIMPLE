@@ -1,14 +1,9 @@
 {
 
-     int x = 1;
+    int x = 1;
 
-     f(int y){
-        if (y == 0) then {
-            print(x);
-        } else {
-            f(y-1);
-        }
-     }
+    f(int y){ if (y == 0) then { print(x);} else { f(y-1) ; }}
 
-     f(54);
+    f(6) ;
+
 }
