@@ -8,7 +8,7 @@ public class EnvironmentVariables {
 
 	//contains the stack of scopes. the last one is always the current active scope
 	//this linked list is used as a stack with LIFO behavior
-	LinkedList<HashMap<String, String>> scopes = new LinkedList<HashMap<String,String>>();
+	LinkedList<HashMap<String, String>> scopes = new LinkedList<>();
 
 	LinkedList<HashMap<String, Integer>> scopesAndAddress = new LinkedList<>();
 

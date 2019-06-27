@@ -31,11 +31,14 @@ public class SimpleStmtIfThenElse extends SimpleStmt {
 
         List<SemanticError> semanticErrors = new LinkedList<>();
 
-        EnvironmentVariables thenEnvironment = new EnvironmentVariables(ev);
-        EnvironmentVariables elseEnvironment = new EnvironmentVariables(ev);
+        EnvironmentVariables thenEnvironmentVariables = new EnvironmentVariables(ev);
+        EnvironmentVariables elseEnvironmentVariables = new EnvironmentVariables(ev);
 
-        semanticErrors.addAll(thenBlock.checkSemanticsIfThenElse(thenEnvironment, ef));
-        semanticErrors.addAll(elseBlock.checkSemanticsIfThenElse(elseEnvironment, ef));
+        EnvironmentFunctions thenEnvironmentFunctions = new EnvironmentFunctions(ef);
+        EnvironmentFunctions elseEnvironmentFunctions = new EnvironmentFunctions(ef);
+
+        semanticErrors.addAll(thenBlock.checkSemanticsIfThenElse(thenEnvironmentVariables, thenEnvironmentFunctions));
+        semanticErrors.addAll(elseBlock.checkSemanticsIfThenElse(elseEnvironmentVariables, elseEnvironmentFunctions));
 
         semanticErrors.addAll(guard.checkSemantics(ev, ef));
 
@@ -43,7 +46,7 @@ public class SimpleStmtIfThenElse extends SimpleStmt {
             semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line, column) + Strings.IfThenElseWrongGuard));
         }
 
-        if (!thenEnvironment.equals(elseEnvironment) || !elseEnvironment.equals(thenEnvironment)) {
+        if (!thenEnvironmentVariables.equals(elseEnvironmentVariables) || !elseEnvironmentVariables.equals(thenEnvironmentVariables)) {
             semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line, column) + Strings.IfThenElseNotBalanced));
         }
 

@@ -30,7 +30,7 @@ public class SimpleExpID extends SimpleExp {
         List<SemanticError> semanticErrors = new LinkedList<>();
 
         if(!ev.containsVariable(id)){
-            semanticErrors.add(new SemanticError("Error line: " + line + ":" + column + " " + Strings.ErrorVariableDoesntExist+id));
+            semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.ErrorVariableDoesntExist+id));
         }
 
         return semanticErrors;

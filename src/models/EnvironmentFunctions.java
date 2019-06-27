@@ -10,13 +10,19 @@ public class EnvironmentFunctions {
 
 	//contains the stack of scopes. the last one is always the current active scope
 	//this linked list is used as a stack with LIFO behavior
-	private LinkedList<HashMap<String, Params>> scopes;
-	private LinkedList<HashMap<String, SimpleStmtBlock>> scopesAndBody;
+	private LinkedList<HashMap<String, Params>> scopes = new LinkedList<>();
+	private LinkedList<HashMap<String, SimpleStmtBlock>> scopesAndBody = new LinkedList<>();
 
 
-	public EnvironmentFunctions() {
-		scopes = new LinkedList<>();
-		scopesAndBody = new LinkedList<>();
+	public EnvironmentFunctions() { }
+
+	public EnvironmentFunctions(EnvironmentFunctions ef){
+		for (HashMap hashmap: ef.scopes) {
+			this.scopes.add(new HashMap(hashmap));
+		}
+		for (HashMap hashmap: ef.scopesAndBody) {
+			this.scopesAndBody.add(new HashMap(hashmap));
+		}
 	}
 
 
