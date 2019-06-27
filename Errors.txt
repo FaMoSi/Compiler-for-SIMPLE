@@ -1,2 +1,0 @@
-Error:(4, 8) If then else not balanced.
-Error:(11, 4) The function has been already declared. Function with ID: f

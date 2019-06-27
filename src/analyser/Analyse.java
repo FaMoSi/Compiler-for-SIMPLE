@@ -18,7 +18,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parser.SimpleLexer;
 import parser.SimpleParser;
-import util.ErrorWriter;
+import util.Writer;
 import util.Node;
 import util.OperationCodeGeneration;
 
@@ -28,6 +28,7 @@ public class Analyse {
 
 		String fileName = "test.spl";
 		String errorFile = "Errors.txt";
+		String codeFile = "Code.txt";
 
 		try{
 			CharStream input = CharStreams.fromFileName(fileName);
@@ -35,13 +36,13 @@ public class Analyse {
 			//create lexer
 			SimpleLexer lexer = new SimpleLexer(input);
 			lexer.removeErrorListeners();
-			lexer.addErrorListener(new ErrorListener(new ErrorWriter(errorFile)));
+			lexer.addErrorListener(new ErrorListener(new Writer(errorFile)));
 
 			//create parser
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			SimpleParser parser = new SimpleParser(tokens);
 			parser.removeErrorListeners();
-			parser.addErrorListener(new ErrorListener(new ErrorWriter(errorFile)));
+			parser.addErrorListener(new ErrorListener(new Writer(errorFile)));
 
 			//tell the parser to build the AST
 			parser.setBuildParseTree(true);
@@ -72,14 +73,13 @@ public class Analyse {
 
 			//this means the semantic checker found some errors
 			if(errors.size() > 0){
-				ErrorWriter errorWriter = new ErrorWriter(errorFile);
+				Writer writerError = new Writer(errorFile);
 				System.out.println("Check semantics FAILED");
 				for(SemanticError err: errors){
-					errorWriter.write(err.toString());
+					writerError.write(err.toString());
 					System.out.println(err);
 				}
 			} else {
-				System.out.println("Check semantics succeded");
 				SimpleVisitorInterp visitorInterp = new SimpleVisitorInterp();
 				SimpleStmtBlock mainInterpBlock = (SimpleStmtBlock) visitorInterp.visitBlock(block);
 				codeGeneration = mainInterpBlock.codeGeneration(new EnvironmentVariablesWithOffset(), new EnvironmentFunctionsWithLabel(), new OperationCodeGeneration(0, 0));
@@ -88,6 +88,13 @@ public class Analyse {
 			if (codeGeneration != null && !codeGeneration.isEmpty()){
 				//adding final instruction
 				codeGeneration.add(new Node("halt", null, null, null, null));
+
+				Writer writerCode = new Writer(codeFile);
+
+				for(Node node: codeGeneration){
+					String instruction = node.getInstr() + " " + node.getArg1() + " " + node.getOffset() + " " + node.getArg2() + " " + node.getArg3();
+					writerCode.write(instruction);
+				}
 
 				Node[] code = new Node[codeGeneration.size()];
 

@@ -6,10 +6,10 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class ErrorWriter {
+public class Writer {
     private String filename;
 
-    public ErrorWriter(String filename){
+    public Writer(String filename){
         try {
             this.filename = filename;
             new FileWriter(filename, false);
@@ -18,11 +18,11 @@ public class ErrorWriter {
         }
     }
 
-    public void write(String error){
+    public void write(String txt){
         try {
             FileWriter outputFile = new FileWriter(filename, true);
             BufferedWriter out = new BufferedWriter(outputFile);
-            out.write(error + "\n");
+            out.write(txt + "\n");
             out.close();
         }
         catch (IOException e) {

@@ -123,12 +123,6 @@ public class SimpleStmtBlock extends SimpleStmt {
 			codeBlock.add(oCgen.pop());
 		}
 
-		int i = 0;
-		for (Node node: codeBlock) {
-			System.out.println("instr: " + (i++) + " " + node.getInstr() + " arg1: "+ node.getArg1()+" offset: "+node.getOffset()+" arg2: "+ node.getArg2()+" arg3: " + node.getArg3());
-		}
-		System.out.println("\n\n\n\n");
-
 		return codeBlock;
 	}
 

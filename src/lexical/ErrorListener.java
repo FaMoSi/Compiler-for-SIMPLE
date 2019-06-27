@@ -3,23 +3,21 @@ package lexical;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
-import util.ErrorWriter;
+import util.Writer;
 
-import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.IOException;
 
 public class ErrorListener extends BaseErrorListener {
 
     private static String fileName;
     private static FileWriter outputFile;
     private Integer error;
-    private ErrorWriter errorWriter;
+    private Writer writer;
 
-    public ErrorListener(ErrorWriter errorWriter)
+    public ErrorListener(Writer writer)
     {
         this.error = 0;
-        this.errorWriter = errorWriter;
+        this.writer = writer;
     }
 
     public Integer error(){ return error; }
@@ -29,7 +27,7 @@ public class ErrorListener extends BaseErrorListener {
     {
         error++;
         String errorMessage = "Error:(" + line + ", " + charPositionInLine + ") " + msg + "\n";
-        errorWriter.write(errorMessage);
+        writer.write(errorMessage);
         System.out.println(errorMessage);
 
     }
