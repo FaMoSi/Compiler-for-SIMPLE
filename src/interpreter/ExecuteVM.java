@@ -28,6 +28,7 @@ public class ExecuteVM {
             int offset;
             int i;
 
+
             switch (bytecode.getInstr()) {
                 case ("print"):
                     System.out.println(getRegister(bytecode.getArg1()));

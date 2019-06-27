@@ -1,7 +1,14 @@
 {
 
-     int x = 2;
+     int x = 1;
 
-     print x;
+     f(int y){
+        if (y == 0) then {
+            print(x);
+        } else {
+            f(y-1);
+        }
+     }
 
+     f(54);
 }

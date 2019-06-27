@@ -66,6 +66,8 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
 			SimpleStmtBlock block = (SimpleStmtBlock) visit(ctx.block());
 
+			block.setFunction(id);
+
 			Integer line = ctx.start.getLine();
 			Integer column = ctx.start.getCharPositionInLine();
 

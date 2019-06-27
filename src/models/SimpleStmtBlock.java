@@ -10,6 +10,7 @@ import java.util.List;
 public class SimpleStmtBlock extends SimpleStmt {
 
 	List<SimpleStmt> children;
+	private String function;
 
 	/**
 	 * Creates a new block
@@ -18,7 +19,6 @@ public class SimpleStmtBlock extends SimpleStmt {
 	SimpleStmtBlock(List<SimpleStmt> children) {
 		this.children = children;
 	}
-
 
 	public List<SemanticError> checkSemantics(EnvironmentVariables e, EnvironmentFunctions f) {
 		//create scope for inner elements
@@ -158,5 +158,8 @@ public class SimpleStmtBlock extends SimpleStmt {
 		return variablesDeclared;
 	}
 
+	public void setFunction(String id){ this.function = id; }
+
+	public String getFunctionID() { return function; }
 
 }

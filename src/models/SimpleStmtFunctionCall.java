@@ -77,7 +77,7 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
         SimpleStmtBlock body = f.getBody(id);
 
         //the body could be null if the function is calling itself
-        if(body != null){
+        if(body != null && !body.getFunctionID().equals(id)){
             semanticErrors.addAll(body.checkSemanticsFunction(e, f));
         }
 
