@@ -19,12 +19,12 @@ public class ExecuteVM {
     }
 
     public void run() {
-        System.out.println("\n\n\n\n\n\nCall Stack:\n");
+        //System.out.println("\n\n\n\n\n\nCall Stack:\n");
         while (true) {
 
             Node bytecode = code[ip++]; // fetch
 
-            System.out.println("instr: " + (ip) + " " + bytecode.getInstr() + " arg1: "+ bytecode.getArg1()+" offset: "+bytecode.getOffset()+" arg2: "+ bytecode.getArg2()+" arg3: " + bytecode.getArg3()+"\n");
+            //System.out.println("instr: " + (ip) + " " + bytecode.getInstr() + " arg1: "+ bytecode.getArg1()+" offset: "+bytecode.getOffset()+" arg2: "+ bytecode.getArg2()+" arg3: " + bytecode.getArg3()+"\n");
 
             int r1, r2;
             boolean b1, b2;
@@ -146,8 +146,8 @@ public class ExecuteVM {
                     break;
             }
 
-            printStack();
-            System.out.println("fp: "+ fp+ " ip: "+ ip + " ra: "+ ra + " a: " + a + " t "+ t +" al: " + al + " ip: " + ip +" sp: "+sp + "\n");
+            //printStack();
+            //System.out.println("fp: "+ fp+ " ip: "+ ip + " ra: "+ ra + " a: " + a + " t "+ t +" al: " + al + " ip: " + ip +" sp: "+sp + "\n");
 
         }
     }

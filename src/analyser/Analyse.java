@@ -18,6 +18,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parser.SimpleLexer;
 import parser.SimpleParser;
+import util.ErrorWriter;
 import util.Node;
 import util.OperationCodeGeneration;
 
@@ -26,6 +27,7 @@ public class Analyse {
 	public static void main(String[] args) {
 
 		String fileName = "test.spl";
+		String errorFile = "Errors.txt";
 
 		try{
 			CharStream input = CharStreams.fromFileName(fileName);
@@ -33,13 +35,13 @@ public class Analyse {
 			//create lexer
 			SimpleLexer lexer = new SimpleLexer(input);
 			lexer.removeErrorListeners();
-			lexer.addErrorListener(new ErrorListener("Errors.txt"));
+			lexer.addErrorListener(new ErrorListener(new ErrorWriter(errorFile)));
 
 			//create parser
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			SimpleParser parser = new SimpleParser(tokens);
 			parser.removeErrorListeners();
-			parser.addErrorListener(new ErrorListener("Errors.txt"));
+			parser.addErrorListener(new ErrorListener(new ErrorWriter(errorFile)));
 
 			//tell the parser to build the AST
 			parser.setBuildParseTree(true);
@@ -51,7 +53,7 @@ public class Analyse {
 
 			SimpleParser.BlockContext block = parser.block();
 
-			if(errorListener.error()){
+			if(errorListener.error() > 0){
 				System.out.println("Lexical check FAILED");
 				return;
 			}
@@ -70,9 +72,12 @@ public class Analyse {
 
 			//this means the semantic checker found some errors
 			if(errors.size() > 0){
+				ErrorWriter errorWriter = new ErrorWriter(errorFile);
 				System.out.println("Check semantics FAILED");
-				for(SemanticError err: errors)
+				for(SemanticError err: errors){
+					errorWriter.write(err.toString());
 					System.out.println(err);
+				}
 			} else {
 				System.out.println("Check semantics succeded");
 				SimpleVisitorInterp visitorInterp = new SimpleVisitorInterp();
@@ -81,6 +86,7 @@ public class Analyse {
 			}
 
 			if (codeGeneration != null && !codeGeneration.isEmpty()){
+				//adding final instruction
 				codeGeneration.add(new Node("halt", null, null, null, null));
 
 				Node[] code = new Node[codeGeneration.size()];
@@ -95,7 +101,6 @@ public class Analyse {
 			}
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

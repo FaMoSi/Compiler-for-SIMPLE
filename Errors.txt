@@ -1,1 +1,2 @@
-Error:(13, 0) no viable alternative at input 'alsfdnlknlk}'
+Error:(4, 8) If then else not balanced.
+Error:(12, 4) The called function has not been declared. Function with ID: g

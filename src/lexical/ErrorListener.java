@@ -3,6 +3,7 @@ package lexical;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
+import util.ErrorWriter;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -10,46 +11,26 @@ import java.io.IOException;
 
 public class ErrorListener extends BaseErrorListener {
 
-    private static String fileName = null;
+    private static String fileName;
     private static FileWriter outputFile;
-    private boolean error;
+    private Integer error;
+    private ErrorWriter errorWriter;
 
-    public ErrorListener(String fileName)
+    public ErrorListener(ErrorWriter errorWriter)
     {
-        this.error = false;
-        try {
-            this.fileName = fileName;
-            outputFile = new FileWriter(fileName, false);
-        }catch (IOException e){
-            System.out.println(e.getMessage());
-        }
-
+        this.error = 0;
+        this.errorWriter = errorWriter;
     }
 
-    public boolean error(){ return error; }
-
-    public static void appendStringToFile(String str)
-    {
-        try {
-
-            // Open given file in append mode.
-            outputFile = new FileWriter(fileName, true);
-            BufferedWriter out = new BufferedWriter(outputFile);
-            out.write(str);
-            out.close();
-        }
-        catch (IOException e) {
-            System.out.println("exception occoured" + e);
-        }
-    }
+    public Integer error(){ return error; }
 
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e)
     {
-        error = true;
+        error++;
         String errorMessage = "Error:(" + line + ", " + charPositionInLine + ") " + msg + "\n";
+        errorWriter.write(errorMessage);
         System.out.println(errorMessage);
-        appendStringToFile(errorMessage);
 
     }
 }
