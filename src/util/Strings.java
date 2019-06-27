@@ -2,7 +2,7 @@ package util;
 
 public class Strings {
 
-	public static final String lineAndColunmn(Integer line, Integer column){ return "Error at line: " + line + ":" + column + " "; }
+	public static final String lineAndColunmn(Integer line, Integer column){ return "Error:(" + line + ", " + column + ") "; }
 
 	public static final String ErrorVariableDoesntExist = "Not variable found. Variable either doesnt exist or has been deleted. Variable name: ";
 

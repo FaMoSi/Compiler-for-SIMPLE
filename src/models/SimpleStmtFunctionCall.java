@@ -12,14 +12,12 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
 
     private List<SimpleExp> actualParams;
     private String id;
-    private SimpleStmtBlock body;
     private Integer line;
     private Integer column;
 
-    SimpleStmtFunctionCall(String id, List<SimpleExp> actualParams, SimpleStmtBlock body, Integer line, Integer column){
+    SimpleStmtFunctionCall(String id, List<SimpleExp> actualParams, Integer line, Integer column){
         this.id = id;
         this.actualParams = actualParams;
-        this.body = body;
         this.line = line;
         this.column = column;
     }
@@ -75,6 +73,8 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
                 return semanticErrors;
             }
         }
+
+        SimpleStmtBlock body = f.getBody(id);
 
         //the body could be null if the function is calling itself
         if(body != null){

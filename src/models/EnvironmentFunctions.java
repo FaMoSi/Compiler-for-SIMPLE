@@ -11,25 +11,38 @@ public class EnvironmentFunctions {
 	//contains the stack of scopes. the last one is always the current active scope
 	//this linked list is used as a stack with LIFO behavior
 	private LinkedList<HashMap<String, Params>> scopes;
+	private LinkedList<HashMap<String, SimpleStmtBlock>> scopesAndBody;
+
 
 	public EnvironmentFunctions() {
-		scopes = new LinkedList<HashMap<String,Params>>();
+		scopes = new LinkedList<>();
+		scopesAndBody = new LinkedList<>();
 	}
 
 
-	void addFunction(String id, Params params) {
+	void addFunction(String id, Params params, SimpleStmtBlock block) {
 		// TODO Auto-generated method stub
 		scopes.peek().put(id, params);
+		scopesAndBody.peek().put(id, block);
 	}
-	
-	
+
+	SimpleStmtBlock getBody(String id){
+		for (int i = scopesAndBody.size()-1; i >= 0; i--){
+			if(scopesAndBody.get(i).get(id) != null){
+				return scopesAndBody.get(i).get(id);
+			}
+		}
+		return null;
+	}
+
 	/** 
 	 * Inserts a new scope into the environment.
 	 * When a scope is inserted old scope is clone so previous defined
 	 * variables still exist
 	 */
 	void openScope(){
-		scopes.push(new HashMap<String, Params>());
+		scopes.push(new HashMap<>());
+		scopesAndBody.push(new HashMap<>());
 	}
 	
 	
@@ -39,6 +52,7 @@ public class EnvironmentFunctions {
 	 */
 	void closeScope(){
 		scopes.pop();
+		scopesAndBody.pop();
 	}
 
 	 boolean containsFunction(String id){

@@ -11,7 +11,7 @@ import java.io.IOException;
 public class ErrorListener extends BaseErrorListener {
 
     private static String fileName = null;
-    private static FileWriter outputFile = null;
+    private static FileWriter outputFile;
     private boolean error;
 
     public ErrorListener(String fileName)
@@ -47,7 +47,7 @@ public class ErrorListener extends BaseErrorListener {
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e)
     {
         error = true;
-        String errorMessage = "syntax-error - line: " + line + ", position: " + charPositionInLine + ", message: " + msg + "\n";
+        String errorMessage = "Error:(" + line + ", " + charPositionInLine + ") " + msg + "\n";
         System.out.println(errorMessage);
         appendStringToFile(errorMessage);
 

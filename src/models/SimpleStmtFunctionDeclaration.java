@@ -30,7 +30,7 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
         List<SemanticError> semanticErrors = new LinkedList<>();
 
         if (!ef.containsFunctionLastBlock(id)) {
-            ef.addFunction(id, new Params(parameters));
+            ef.addFunction(id, new Params(parameters), block);
         } else {
             semanticErrors.add(new SemanticError(Strings.lineAndColunmn(line,column) + Strings.FunctionAlreadyDeclared + id));
         }

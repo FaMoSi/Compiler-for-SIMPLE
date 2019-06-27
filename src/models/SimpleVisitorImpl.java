@@ -10,7 +10,6 @@ import java.util.List;
 
 public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 
-	private HashMap<String, SimpleStmtBlock> functionAndBody = new HashMap<>();
 
 	@Override
 	public SimpleElementBase visitStatement(SimpleParser.StatementContext ctx) {
@@ -44,12 +43,10 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 			simpleExps.add((SimpleExp) visit(exp));
 		}
 
-		SimpleStmtBlock body = functionAndBody.get(id);
-
 		Integer line = ctx.start.getLine();
 		Integer column = ctx.start.getCharPositionInLine();
 
-		return new SimpleStmtFunctionCall(id, simpleExps, body, line, column);
+		return new SimpleStmtFunctionCall(id, simpleExps, line, column);
 	}
 
 	@Override
@@ -68,8 +65,6 @@ public class SimpleVisitorImpl extends SimpleBaseVisitor<SimpleElementBase> {
 			}
 
 			SimpleStmtBlock block = (SimpleStmtBlock) visit(ctx.block());
-
-			functionAndBody.put(id, block);
 
 			Integer line = ctx.start.getLine();
 			Integer column = ctx.start.getCharPositionInLine();

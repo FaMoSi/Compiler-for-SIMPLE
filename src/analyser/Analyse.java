@@ -24,9 +24,9 @@ import util.OperationCodeGeneration;
 public class Analyse {
 
 	public static void main(String[] args) {
-		
+
 		String fileName = "test.spl";
-		
+
 		try{
 			CharStream input = CharStreams.fromFileName(fileName);
 
@@ -51,9 +51,12 @@ public class Analyse {
 
 			SimpleParser.BlockContext block = parser.block();
 
-			if(!errorListener.error()){
+			if(errorListener.error()){
+				System.out.println("Lexical check FAILED");
+				return;
+			}
 
-				//visit the root, this will recursively visit the whole tree
+			//visit the root, this will recursively visit the whole tree
 			SimpleStmtBlock mainBlock = (SimpleStmtBlock) visitor.visitBlock(block);
 
 			//check semantics
@@ -67,7 +70,7 @@ public class Analyse {
 
 			//this means the semantic checker found some errors
 			if(errors.size() > 0){
-				System.out.println("Check semantics FAILED");			
+				System.out.println("Check semantics FAILED");
 				for(SemanticError err: errors)
 					System.out.println(err);
 			} else {
@@ -89,10 +92,6 @@ public class Analyse {
 				ExecuteVM vm = new ExecuteVM(code);
 
 				vm.run();
-			} else {
-				System.out.println("Code Generation vuota");
-			}
-
 			}
 
 		} catch (IOException e) {
@@ -165,7 +164,6 @@ public class Analyse {
 				code[index].setOffset(labelAdd.get(entry.getKey()));
 			}
 		}
-
 		return code;
 	}
 

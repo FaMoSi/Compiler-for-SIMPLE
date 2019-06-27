@@ -1,33 +1,11 @@
 {
 
-    g(){
-        print 11;
+    f(var int x, int y){
+        if (y==0) then {
+            delete x;
+         } else{
+            x=x+y;
+         }
     }
 
-    f(){
-        print 15;
-    }
-
-    {
-
-        f(int x){
-          print x;
-        }
-
-        {
-
-            {
-                int t = 9;
-
-               f(t);
-
-            }
-        }
-    }
-
-    f();
 }
-
-
-
-
