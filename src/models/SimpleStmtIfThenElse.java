@@ -60,15 +60,22 @@ public class SimpleStmtIfThenElse extends SimpleStmt {
         String b_true = oCgen.getFreshLabel();
         String end_if = oCgen.getFreshLabel();
 
+        EnvironmentVariablesWithOffset thenEnvironmentVariables = new EnvironmentVariablesWithOffset(ev);
+        EnvironmentVariablesWithOffset elseEnvironmentVariables = new EnvironmentVariablesWithOffset(ev);
+
+        EnvironmentFunctionsWithLabel thenEnvironmentFunctions = new EnvironmentFunctionsWithLabel(ef);
+        EnvironmentFunctionsWithLabel elseEnvironmentFunctions = new EnvironmentFunctionsWithLabel(ef);
+
+
         List<Node> codeExp = guard.codeGeneration(ev, ef, oCgen);
         ifThenElseCode.addAll(codeExp);
         ifThenElseCode.add(oCgen.li("t", "1"));
         ifThenElseCode.add(oCgen.beq("a", "t", b_true));
-        List<Node> elseCode = elseBlock.codeGeneration(ev, ef, oCgen);
+        List<Node> elseCode = elseBlock.codeGeneration(elseEnvironmentVariables, elseEnvironmentFunctions, oCgen);
         ifThenElseCode.addAll(elseCode);
         ifThenElseCode.add(oCgen.b(end_if));
         ifThenElseCode.add(oCgen.label(b_true));
-        List<Node> thenCode = thenBlock.codeGeneration(ev, ef, oCgen);
+        List<Node> thenCode = thenBlock.codeGeneration(thenEnvironmentVariables, thenEnvironmentFunctions, oCgen);
         ifThenElseCode.addAll(thenCode);
         ifThenElseCode.add(oCgen.label(end_if));
 

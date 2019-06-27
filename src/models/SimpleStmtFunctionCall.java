@@ -105,11 +105,15 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
             functionCallCode.addAll(oCgen.push("a"));
         }
 
-        functionCallCode.add(oCgen.move("al","fp"));
+
+        functionCallCode.add(oCgen.move("al", "fp"));
+
+        SimpleStmtBlock body = ef.getBody(id);
 
         for(int i = 0; i < oCgen.getNestingLevel() - ef.getNestingLevel(id); i++){
             functionCallCode.add(oCgen.lw("al",0,"al"));
         }
+
 
         functionCallCode.addAll(oCgen.push("fp"));
 

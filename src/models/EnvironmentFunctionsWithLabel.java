@@ -7,26 +7,46 @@ import java.util.List;
 public class EnvironmentFunctionsWithLabel {
     private int labelCounter = 0;
 
-    private List<HashMap> identifierAndLabel = new LinkedList<>();
+    private LinkedList<HashMap> identifierAndLabel = new LinkedList<>();
 
-    private List<HashMap> identifierAndVariablesDeclared = new LinkedList<>();
+    private LinkedList<HashMap> identifierAndVariablesDeclared = new LinkedList<>();
 
-    void openScope() {
-        identifierAndLabel.add(new HashMap());
-        identifierAndVariablesDeclared.add(new HashMap());
+    private LinkedList<HashMap<String, SimpleStmtBlock>> scopesAndBody = new LinkedList<>();
+
+    public EnvironmentFunctionsWithLabel() {}
+
+    public EnvironmentFunctionsWithLabel(EnvironmentFunctionsWithLabel copy){
+        for (HashMap hashmap: copy.identifierAndLabel) {
+            this.identifierAndLabel.add(new HashMap(hashmap));
+        }
+
+        for (HashMap hashmap: copy.identifierAndVariablesDeclared) {
+            this.identifierAndVariablesDeclared.add(new HashMap(hashmap));
+        }
+
+        for (HashMap hashmap: copy.scopesAndBody) {
+            this.scopesAndBody.add(new HashMap(hashmap));
+        }
     }
 
-    String newFunctionDeclaration(String identifier, List<String> variablesDeclared){
-        int blockNumber = identifierAndLabel.size()-1;
+
+    void openScope() {
+        identifierAndLabel.push(new HashMap());
+        identifierAndVariablesDeclared.push(new HashMap());
+        scopesAndBody.push(new HashMap<>());
+    }
+
+    String newFunctionDeclaration(String identifier, List<String> variablesDeclared, SimpleStmtBlock body){
         String freshLabel = getFreshLabel();
-        identifierAndVariablesDeclared.get(blockNumber).put(identifier, variablesDeclared);
-        identifierAndLabel.get(blockNumber).put(identifier, freshLabel);
+        identifierAndVariablesDeclared.peek().put(identifier, variablesDeclared);
+        identifierAndLabel.peek().put(identifier, freshLabel);
+        scopesAndBody.peek().put(identifier, body);
 
         return freshLabel;
     }
 
     String getFunctionLabel(String identifier){
-        for(int i = identifierAndLabel.size()-1; i >= 0; i--){
+        for(int i = 0 ; i < identifierAndLabel.size(); i++){
             if(identifierAndLabel.get(i).get(identifier) != null){
                 return (String) identifierAndLabel.get(i).get(identifier);
             }
@@ -35,16 +55,16 @@ public class EnvironmentFunctionsWithLabel {
     }
 
     List<String> getVariablesDeclared(String identifier){
-        for(int i = identifierAndVariablesDeclared.size()-1; i >= 0; i--){
-            if(identifierAndVariablesDeclared.get(i) != null){
-                return (List<String>) identifierAndVariablesDeclared.get(i).get(identifier);
+        for (HashMap hashMap: identifierAndVariablesDeclared){
+            if(hashMap.get(identifier) != null){
+                return (List<String>) hashMap.get(identifier);
             }
         }
         return null;
     }
 
     int getNestingLevel(String identifier){
-        for(int i = identifierAndLabel.size()-1; i >= 0; i--){
+        for(int i = 0; i < identifierAndLabel.size() ; i++){
             if(identifierAndLabel.get(i).get(identifier) != null){
                 return i;
             }
@@ -52,12 +72,22 @@ public class EnvironmentFunctionsWithLabel {
         return -1;
     }
 
+    SimpleStmtBlock getBody(String id){
+        for (HashMap hashMap: scopesAndBody){
+            if(hashMap.get(id) != null){
+                return (SimpleStmtBlock) hashMap.get(id);
+            }
+        }
+        return null;
+    }
+
     private String getFreshLabel(){
         return "flabel" + labelCounter++;
     }
 
     void closeScope() {
-        identifierAndLabel.remove(identifierAndLabel.size()-1);
-        identifierAndVariablesDeclared.remove(identifierAndVariablesDeclared.size()-1);
+        identifierAndLabel.pop();
+        identifierAndVariablesDeclared.pop();
+        scopesAndBody.pop();
     }
 }

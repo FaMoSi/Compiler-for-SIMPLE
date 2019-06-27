@@ -126,6 +126,7 @@ public class SimpleStmtBlock extends SimpleStmt {
 		return codeBlock;
 	}
 
+
 	List<Node> codeGenerationDeclaration(EnvironmentVariablesWithOffset ev, EnvironmentFunctionsWithLabel ef, OperationCodeGeneration oCgen) {
 		List<Node> codeBlock = new ArrayList<>();
 

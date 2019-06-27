@@ -11,6 +11,14 @@ public class EnvironmentVariablesWithOffset extends EnvironmentVariables {
 
     private List<HashMap> identifierAndOffset = new LinkedList<>();
 
+    public EnvironmentVariablesWithOffset(){ }
+
+    public EnvironmentVariablesWithOffset(EnvironmentVariablesWithOffset copy){
+        for (HashMap hashmap: copy.identifierAndOffset) {
+            this.identifierAndOffset.add(new HashMap(hashmap));
+        }
+    }
+
     @Override
     public void openScope(){
         scopes.add(new HashMap());

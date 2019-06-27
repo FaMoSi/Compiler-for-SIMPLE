@@ -74,8 +74,9 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
             ev.varDeclaration(param);
         }
 
-        String freshLabel = ef.newFunctionDeclaration(id, variablesDeclared);
+        String freshLabel = ef.newFunctionDeclaration(id, variablesDeclared, block);
         codeDeclaration.add(oCgen.label(freshLabel));
+
         codeDeclaration.add(oCgen.move("fp", "sp"));
 
         codeDeclaration.addAll(oCgen.push("ra"));
