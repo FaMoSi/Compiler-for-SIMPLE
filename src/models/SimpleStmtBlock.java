@@ -41,25 +41,6 @@ public class SimpleStmtBlock extends SimpleStmt {
 		return result;
 	}
 
-
-	List<SemanticError> checkSemanticsIfThenElse(EnvironmentVariables e, EnvironmentFunctions f) {
-		//create scope for inner elements
-		e.openScope();
-		f.openScope();
-
-		//initialize result variable
-		LinkedList<SemanticError> result = new LinkedList<>();
-
-		//check children semantics
-		if(children!=null)
-			for(SimpleStmt el:children)
-				result.addAll(el.checkSemantics(e, f));
-
-		//close scope for this block
-
-		return result;
-	}
-
 	List<SemanticError> checkSemanticsFunction(EnvironmentVariables e, EnvironmentFunctions f) {
 
 		//initialize result variable

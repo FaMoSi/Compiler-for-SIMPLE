@@ -1,0 +1,3 @@
+Error:(6, 8) The formal param is passed by var, then require a variable.
+Error:(17, 8) The formal param is passed by var, then require a variable.
+Error:(6, 8) The formal param is passed by var, then require a variable.

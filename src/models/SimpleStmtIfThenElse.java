@@ -37,8 +37,8 @@ public class SimpleStmtIfThenElse extends SimpleStmt {
         EnvironmentFunctions thenEnvironmentFunctions = new EnvironmentFunctions(ef);
         EnvironmentFunctions elseEnvironmentFunctions = new EnvironmentFunctions(ef);
 
-        semanticErrors.addAll(thenBlock.checkSemanticsIfThenElse(thenEnvironmentVariables, thenEnvironmentFunctions));
-        semanticErrors.addAll(elseBlock.checkSemanticsIfThenElse(elseEnvironmentVariables, elseEnvironmentFunctions));
+        semanticErrors.addAll(thenBlock.checkSemantics(thenEnvironmentVariables, thenEnvironmentFunctions));
+        semanticErrors.addAll(elseBlock.checkSemantics(elseEnvironmentVariables, elseEnvironmentFunctions));
 
         semanticErrors.addAll(guard.checkSemantics(ev, ef));
 

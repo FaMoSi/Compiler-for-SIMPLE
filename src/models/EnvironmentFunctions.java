@@ -12,16 +12,20 @@ public class EnvironmentFunctions {
 	//this linked list is used as a stack with LIFO behavior
 	private LinkedList<HashMap<String, Params>> scopes = new LinkedList<>();
 	private LinkedList<HashMap<String, SimpleStmtBlock>> scopesAndBody = new LinkedList<>();
+	private LinkedList<String> callStack = new LinkedList<>();
 
 
 	public EnvironmentFunctions() { }
 
 	public EnvironmentFunctions(EnvironmentFunctions ef){
 		for (HashMap hashmap: ef.scopes) {
-			this.scopes.add(new HashMap(hashmap));
+			this.scopes.push(new HashMap(hashmap));
 		}
 		for (HashMap hashmap: ef.scopesAndBody) {
-			this.scopesAndBody.add(new HashMap(hashmap));
+			this.scopesAndBody.push(new HashMap(hashmap));
+		}
+		for (String id: ef.callStack) {
+			this.callStack.push(id);
 		}
 	}
 
@@ -83,5 +87,17 @@ public class EnvironmentFunctions {
 		}
 
 		return new LinkedList<>();
+	}
+
+	void pushCallStack(String id){
+		callStack.push(id);
+	}
+
+	void popCallStack(){
+		callStack.pop();
+	}
+
+	boolean isFunctionRecursive(String id){
+		return callStack.contains(id);
 	}
 }

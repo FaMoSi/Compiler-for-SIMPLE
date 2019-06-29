@@ -45,7 +45,9 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
             }
         }
 
+        ef.pushCallStack(id);
         semanticErrors.addAll(block.checkSemanticsFunction(ev, ef));
+        ef.popCallStack();
 
         return semanticErrors;
     }

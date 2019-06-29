@@ -64,10 +64,12 @@ public class EnvironmentFunctionsWithLabel {
     }
 
     int getNestingLevel(String identifier){
-        for(int i = 0; i < identifierAndLabel.size() ; i++){
+        int j = 1;
+        for(int i = identifierAndLabel.size()-1; i >= 0 ; i--){
             if(identifierAndLabel.get(i).get(identifier) != null){
-                return i;
+                return j;
             }
+            j++;
         }
         return -1;
     }

@@ -76,9 +76,13 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
 
         SimpleStmtBlock body = f.getBody(id);
 
-        //the body could be null if the function is calling itself
-        if(body != null && !body.getFunctionID().equals(id)){
+        if(!f.isFunctionRecursive(id)){
+            f.pushCallStack(id);
             semanticErrors.addAll(body.checkSemanticsFunction(e, f));
+            f.popCallStack();
+        } else {
+            //if the function is recursive then we close the scopes previously opened
+            e.closeScope();
         }
 
         return semanticErrors;
@@ -108,14 +112,13 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
 
         functionCallCode.add(oCgen.move("al", "fp"));
 
-        SimpleStmtBlock body = ef.getBody(id);
-
-        for(int i = 0; i < oCgen.getNestingLevel() - ef.getNestingLevel(id); i++){
+        int offset = ef.getNestingLevel(id);
+        for(int i = 0; i < oCgen.getNestingLevel() - offset ; i++){
             functionCallCode.add(oCgen.lw("al",0,"al"));
         }
 
 
-        functionCallCode.addAll(oCgen.push("fp"));
+        functionCallCode.addAll(oCgen.push("al"));
 
         ev.closeScope();
 
