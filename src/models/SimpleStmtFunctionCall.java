@@ -84,7 +84,6 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
             //if the function is recursive then we close the scopes previously opened
             e.closeScope();
         }
-
         return semanticErrors;
     }
 
@@ -113,6 +112,7 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
         functionCallCode.add(oCgen.move("al", "fp"));
 
         int offset = ef.getNestingLevel(id);
+
         for(int i = 0; i < oCgen.getNestingLevel() - offset ; i++){
             functionCallCode.add(oCgen.lw("al",0,"al"));
         }
@@ -123,6 +123,7 @@ public class SimpleStmtFunctionCall extends SimpleStmt {
         ev.closeScope();
 
         String functionLabel = ef.getFunctionLabel(id);
+
         functionCallCode.add(oCgen.jal(functionLabel));
 
         return functionCallCode;

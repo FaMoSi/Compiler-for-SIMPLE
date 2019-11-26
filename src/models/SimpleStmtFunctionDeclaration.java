@@ -77,6 +77,7 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
         }
 
         String freshLabel = ef.newFunctionDeclaration(id, variablesDeclared, block);
+
         codeDeclaration.add(oCgen.label(freshLabel));
 
         codeDeclaration.add(oCgen.move("fp", "sp"));
@@ -103,7 +104,6 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
 
         codeDeclaration.add(oCgen.label(endFunctionLabel));
 
-
         oCgen.decreaseNestingLevel();
         ev.closeScope();
 
@@ -116,7 +116,6 @@ public class SimpleStmtFunctionDeclaration extends SimpleStmt {
         for (SimpleStmt children : block.children) {
             if (children.getClass() == SimpleStmtDeclaration.class){
                 SimpleStmtDeclaration declaration = (SimpleStmtDeclaration) children;
-
                 variablesDeclared.add(declaration.getID());
                 ev.varDeclaration(declaration.getID());
             }

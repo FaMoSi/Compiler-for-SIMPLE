@@ -47,6 +47,7 @@ public class Analyse {
 			//tell the parser to build the AST
 			parser.setBuildParseTree(true);
 
+
 			ErrorListener errorListener  = (ErrorListener) parser.getErrorListeners().get(0);
 
 			//build custom visitor
@@ -56,7 +57,7 @@ public class Analyse {
 
 			if(errorListener.error() > 0){
 				System.out.println("Lexical check FAILED");
-				return;
+				System.exit(1);
 			}
 
 			//visit the root, this will recursively visit the whole tree

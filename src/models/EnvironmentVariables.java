@@ -99,7 +99,6 @@ public class EnvironmentVariables {
 	}
 
 	void createAssociationBetweenIdentifiers(String formal, String actual){
-
 		for (HashMap scopeFormal: scopesAndAddress){
 			if(scopeFormal.get(formal) != null){
 				for (HashMap scopeActual: scopesAndAddress){

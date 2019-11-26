@@ -1,7 +1,5 @@
 package util;
 
-import org.antlr.v4.codegen.model.OutputFile;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;

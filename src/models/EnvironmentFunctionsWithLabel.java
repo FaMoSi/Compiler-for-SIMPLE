@@ -11,8 +11,6 @@ public class EnvironmentFunctionsWithLabel {
 
     private LinkedList<HashMap> identifierAndVariablesDeclared = new LinkedList<>();
 
-    private LinkedList<HashMap<String, SimpleStmtBlock>> scopesAndBody = new LinkedList<>();
-
     public EnvironmentFunctionsWithLabel() {}
 
     public EnvironmentFunctionsWithLabel(EnvironmentFunctionsWithLabel copy){
@@ -23,24 +21,18 @@ public class EnvironmentFunctionsWithLabel {
         for (HashMap hashmap: copy.identifierAndVariablesDeclared) {
             this.identifierAndVariablesDeclared.add(new HashMap(hashmap));
         }
-
-        for (HashMap hashmap: copy.scopesAndBody) {
-            this.scopesAndBody.add(new HashMap(hashmap));
-        }
     }
 
 
     void openScope() {
         identifierAndLabel.push(new HashMap());
         identifierAndVariablesDeclared.push(new HashMap());
-        scopesAndBody.push(new HashMap<>());
     }
 
     String newFunctionDeclaration(String identifier, List<String> variablesDeclared, SimpleStmtBlock body){
         String freshLabel = getFreshLabel();
         identifierAndVariablesDeclared.peek().put(identifier, variablesDeclared);
         identifierAndLabel.peek().put(identifier, freshLabel);
-        scopesAndBody.peek().put(identifier, body);
 
         return freshLabel;
     }
@@ -74,15 +66,6 @@ public class EnvironmentFunctionsWithLabel {
         return -1;
     }
 
-    SimpleStmtBlock getBody(String id){
-        for (HashMap hashMap: scopesAndBody){
-            if(hashMap.get(id) != null){
-                return (SimpleStmtBlock) hashMap.get(id);
-            }
-        }
-        return null;
-    }
-
     private String getFreshLabel(){
         return "flabel" + labelCounter++;
     }
@@ -90,6 +73,5 @@ public class EnvironmentFunctionsWithLabel {
     void closeScope() {
         identifierAndLabel.pop();
         identifierAndVariablesDeclared.pop();
-        scopesAndBody.pop();
     }
 }
